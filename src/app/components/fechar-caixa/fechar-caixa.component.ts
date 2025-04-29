@@ -5,8 +5,9 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './fechar-caixa.component.html'
 })
 export class FecharCaixaComponent implements OnInit {
-  totalVendidoHoje: number = 0;
   vendasHoje: any[] = [];
+  totalVendidoHoje: number = 0;
+  totalItensVendidosHoje: number = 0;
 
   ngOnInit(): void {
     this.filtrarVendasDeHoje();
@@ -14,7 +15,6 @@ export class FecharCaixaComponent implements OnInit {
 
   filtrarVendasDeHoje(): void {
     const todasVendas = JSON.parse(localStorage.getItem('vendas') || '[]');
-
     const hoje = new Date().toISOString().split('T')[0];
 
     this.vendasHoje = todasVendas.filter((venda: any) => {
@@ -22,14 +22,15 @@ export class FecharCaixaComponent implements OnInit {
       return dataVenda === hoje;
     });
 
-    this.totalVendidoHoje = this.vendasHoje.reduce((acc, venda) => acc + venda.preco, 0);
+    // Agora calcula total de dinheiro e total de itens
+    this.totalVendidoHoje = this.vendasHoje.reduce((acc, venda) => acc + (venda.preco * venda.quantidade), 0);
+    this.totalItensVendidosHoje = this.vendasHoje.reduce((acc, venda) => acc + venda.quantidade, 0);
   }
 
   fecharCaixa(): void {
-    // Marca caixa como fechado
+    // Fecha o caixa e apaga as vendas de hoje
     localStorage.setItem('caixaAberto', 'false');
 
-    // Remove apenas as vendas de hoje
     const todasVendas = JSON.parse(localStorage.getItem('vendas') || '[]');
     const hoje = new Date().toISOString().split('T')[0];
 
@@ -43,6 +44,6 @@ export class FecharCaixaComponent implements OnInit {
     alert(`✅ Caixa fechado!\nTotal vendido hoje: ${this.totalVendidoHoje.toLocaleString('pt-BR', {
       style: 'currency',
       currency: 'BRL'
-    })}`);
+    })}\nTotal de itens vendidos: ${this.totalItensVendidosHoje}`);
   }
 }

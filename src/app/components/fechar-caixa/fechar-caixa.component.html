@@ -1,12 +1,15 @@
 <div class="container mt-5 pt-5">
-    <div class="card shadow p-4 text-center">
-      <h2>🏁 Fechar Caixa</h2>
-  
-      <p class="mt-4 fs-4">
-        Total Vendido Hoje: <strong>{{ totalVendidoHoje | currency:'BRL' }}</strong>
-      </p>
-  
-      <button class="btn btn-danger btn-lg mt-2" (click)="fecharCaixa()">Fechar Caixa</button>
-    </div>
+  <div class="card shadow p-4 text-center">
+    <h2>🏁 Fechar Caixa</h2>
+
+    <p class="mt-4 fs-4">
+      💵 Total Vendido Hoje: <strong>{{ totalVendidoHoje | currency:'BRL' }}</strong>
+    </p>
+
+    <p class="fs-4">
+      📦 Total de Itens Vendidos: <strong>{{ totalItensVendidosHoje }}</strong>
+    </p>
+
+    <button class="btn btn-danger btn-lg mt-2" (click)="fecharCaixa()">Fechar Caixa</button>
   </div>
-  
+</div>
