@@ -1,59 +1,30 @@
-<div class="container mt-4">
-  <h2>💸 Realizar Venda</h2>
+<div class="container mt-5 pt-5">
+  <h2 class="text-center mb-4">💸 Realizar Venda</h2>
 
-  <form (ngSubmit)="vender()" class="mb-4">
-    <!-- Seleção da Peça -->
-    <div class="mb-3">
-      <label class="form-label">Forma de Pagamento</label>
-      <select class="form-select" [(ngModel)]="formaPagamento" name="formaPagamento" required>
-        <option value="Dinheiro">💵 Dinheiro</option>
-        <option value="Cartão">💳 Cartão</option>
-        <option value="Pix">🏦 Pix</option>
-        <option value="Crédito">🧾 Crédito</option>
-      </select>
-    </div>
-    <div class="mb-3">
-      <label class="form-label">Peça</label>
-      <select class="form-select" [(ngModel)]="produtoSelecionado" name="produto" required>
-        <option value="" disabled selected>Selecione uma peça</option>
-        <option *ngFor="let peca of pecas" [value]="peca.nome">
-          {{ peca.nome }} - R$ {{ peca.preco | currency:'BRL':'symbol':'1.2-2' }} ({{ peca.estoque }} un.)
-        </option>
-      </select>
-    </div>
-    
-    <!-- Quantidade -->
-    <div class="mb-3">
-      <label class="form-label">Quantidade</label>
-      <input type="number" class="form-control" [(ngModel)]="quantidade" name="quantidade" min="1" required>
-    </div>
-
-    <!-- Botões -->
-    <div class="d-flex gap-2">
-      <button type="submit" class="btn btn-success">✅ Vender</button>
-      <button type="button" class="btn btn-secondary" (click)="imprimirRecibo()" [disabled]="!ultimaVenda">
-        🖨️ Imprimir Recibo
-      </button>
-    </div>
-  </form>
-
-  <!-- Toast de sucesso -->
-  <div
-    *ngIf="mensagem"
-    class="toast align-items-center text-white bg-success border-0 show"
-    style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; min-width: 300px"
-    role="alert"
-  >
-    <div class="d-flex">
-      <div class="toast-body">
-        {{ mensagem }}
-      </div>
-      <button type="button" class="btn-close btn-close-white me-2 m-auto" aria-label="Close" (click)="mensagem=''"></button>
-    </div>
+  <div *ngIf="!caixaAberto" class="alert alert-danger text-center">
+    ⚠️ Abra o caixa para realizar vendas!
   </div>
 
-  <!-- Áudio de sucesso -->
-  <audio #audioSucesso>
-    <source src="assets/sucesso.mp3" type="audio/mpeg" />
-  </audio>
+  <div class="row">
+    <div class="col-md-4 mb-3" *ngFor="let peca of pecasDisponiveis">
+      <div class="card h-100 shadow">
+        <div class="card-body">
+          <h5 class="card-title">{{ peca.nome }}</h5>
+          <p class="card-text">
+            <strong>Preço:</strong> {{ peca.preco | currency:'BRL' }}<br>
+            <strong>Estoque:</strong> {{ peca.estoque }}
+          </p>
+
+          <div class="mb-2">
+            <label>Quantidade:</label>
+            <input type="number" class="form-control" [(ngModel)]="quantidadeSelecionada[peca.nome]" [min]="1" [max]="peca.estoque" />
+          </div>
+
+          <button class="btn btn-primary w-100 mt-2" (click)="vender(peca)">
+            🛒 Vender
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

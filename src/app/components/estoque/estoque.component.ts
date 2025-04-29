@@ -8,7 +8,11 @@ export class EstoqueComponent implements OnInit {
   pecas: any[] = [];
 
   ngOnInit(): void {
-    const dados = localStorage.getItem('pecas');
-    this.pecas = dados ? JSON.parse(dados) : [];
+    this.carregarPecas();
+  }
+
+  carregarPecas(): void {
+    const pecasSalvas = JSON.parse(localStorage.getItem('pecas') || '[]');
+    this.pecas = pecasSalvas;
   }
 }

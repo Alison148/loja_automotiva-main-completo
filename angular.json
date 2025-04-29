@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "angular-loja-automotiva": {
+    "loja-automotiva": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,49 +13,67 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/angular-loja-automotiva",
+            "outputPath": "dist/loja-automotiva",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
-            "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.css"],
-            "scripts": []
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "src/styles.css"
+            ],
+            "scripts": [
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+              "node_modules/chart.js/dist/chart.umd.js",
+              "node_modules/html2pdf.js/dist/html2pdf.bundle.min.js"
+            ]
           },
           "configurations": {
             "production": {
-              "fileReplacements": [{
-                "replace": "src/environments/environment.ts",
-                "with": "src/environments/environment.prod.ts"
-              }],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": true
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                }
+              ]
             }
           }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "angular-loja-automotiva:build"
+            "browserTarget": "loja-automotiva:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "angular-loja-automotiva:build:production"
+              "browserTarget": "loja-automotiva:build:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "angular-loja-automotiva",
+  "defaultProject": "loja-automotiva",
   "cli": {
-    "analytics": "f00f06c4-9194-4958-aa3c-00d69789c74f"
+    "analytics": false
   }
 }

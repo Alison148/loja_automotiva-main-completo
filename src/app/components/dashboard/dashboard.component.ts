@@ -1,60 +1,56 @@
 import { Component, AfterViewInit } from '@angular/core';
 import Chart from 'chart.js/auto';
+import html2pdf from 'html2pdf.js';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html'
 })
 export class DashboardComponent implements AfterViewInit {
+  vendas: any[] = [];
+  chart: any;
 
   ngAfterViewInit(): void {
-    this.gerarGraficoVendas();
-    this.gerarGraficoEstoque();
+    this.carregarVendas();
+    this.gerarGrafico();
   }
 
-  gerarGraficoVendas() {
-    new Chart('graficoVendas', {
+  carregarVendas(): void {
+    this.vendas = JSON.parse(localStorage.getItem('vendas') || '[]');
+  }
+
+  gerarGrafico(): void {
+    const produtosVendidos = this.vendas.reduce((acc: any, venda: any) => {
+      acc[venda.produto] = (acc[venda.produto] || 0) + 1;
+      return acc;
+    }, {});
+
+    const labels = Object.keys(produtosVendidos);
+    const data = Object.values(produtosVendidos);
+
+    this.chart = new Chart('vendasChart', {
       type: 'bar',
       data: {
-        labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai'],
+        labels: labels,
         datasets: [{
-          label: 'Vendas (R$)',
-          data: [500, 800, 600, 750, 900],
-          borderWidth: 1
+          label: 'Quantidade Vendida',
+          data: data,
+          backgroundColor: 'rgba(13, 110, 253, 0.7)'
         }]
       },
       options: {
         responsive: true,
         plugins: {
-          title: {
-            display: true,
-            text: 'Gráfico de Vendas'
+          legend: {
+            display: false
           }
         }
       }
     });
   }
 
-  gerarGraficoEstoque() {
-    new Chart('graficoEstoque', {
-      type: 'pie',
-      data: {
-        labels: ['Peça A', 'Peça B', 'Peça C'],
-        datasets: [{
-          label: 'Estoque Atual',
-          data: [20, 15, 30],
-          borderWidth: 1
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          title: {
-            display: true,
-            text: 'Gráfico de Estoque'
-          }
-        }
-      }
-    });
+  exportarPDF(): void {
+    const elemento = document.getElementById('dashboard');
+    html2pdf().from(elemento).save('relatorio-vendas.pdf');
   }
 }

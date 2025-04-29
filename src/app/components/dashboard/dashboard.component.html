@@ -1,11 +1,11 @@
-<div class="container mt-4">
-  <h2>📊 Dashboard</h2>
-  <div class="row">
-    <div class="col-md-6 mb-4">
-      <canvas id="graficoVendas"></canvas>
-    </div>
-    <div class="col-md-6 mb-4">
-      <canvas id="graficoEstoque"></canvas>
-    </div>
+<div class="container mt-5 pt-5" id="dashboard">
+  <h2 class="text-center mb-4">📊 Dashboard de Vendas</h2>
+
+  <canvas id="vendasChart" height="120"></canvas>
+
+  <div class="text-center mt-4">
+    <button class="btn btn-outline-primary" (click)="exportarPDF()">
+      📄 Exportar Relatório em PDF
+    </button>
   </div>
 </div>

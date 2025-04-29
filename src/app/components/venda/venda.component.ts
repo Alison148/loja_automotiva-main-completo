@@ -1,86 +1,86 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-venda',
   templateUrl: './venda.component.html'
 })
 export class VendaComponent implements OnInit {
-  pecas: any[] = [];
-  produtoSelecionado: string = '';
-  quantidade: number = 1;
-  formaPagamento: string = 'Dinheiro';
-  mensagem: string = '';
-  ultimaVenda: any = null;
-
-  @ViewChild('audioSucesso') audioSucesso!: ElementRef<HTMLAudioElement>;
+  pecasDisponiveis: any[] = [];
+  caixaAberto: boolean = false;
+  quantidadeSelecionada: { [key: string]: number } = {}; // Guarda a quantidade por produto
 
   ngOnInit(): void {
-    const dados = localStorage.getItem('pecas');
-    this.pecas = dados ? JSON.parse(dados) : [];
-    console.log('PEÇAS CARREGADAS:', this.pecas);
+    this.carregarPecas();
+    this.verificarCaixa();
   }
-  
 
-  vender(): void {
-    const peca = this.pecas.find(p => p.nome === this.produtoSelecionado);
+  carregarPecas(): void {
+    const pecasSalvas = JSON.parse(localStorage.getItem('pecas') || '[]');
+    this.pecasDisponiveis = pecasSalvas.filter((p: any) => p.estoque > 0);
+  }
 
-    if (!peca) {
-      alert('Selecione uma peça válida.');
+  verificarCaixa(): void {
+    const caixa = localStorage.getItem('caixaAberto');
+    this.caixaAberto = caixa === 'true';
+  }
+
+  vender(peca: any): void {
+    if (!this.caixaAberto) {
+      alert('❌ Você precisa abrir o caixa antes de vender!');
       return;
     }
 
-    if (this.quantidade > peca.estoque) {
-      alert('Quantidade maior que o estoque disponível.');
-      return;
+    const quantidade = this.quantidadeSelecionada[peca.nome] || 1;
+
+    if (peca.estoque >= quantidade) {
+      peca.estoque -= quantidade;
+
+      if (peca.estoque === 0) {
+        this.pecasDisponiveis = this.pecasDisponiveis.filter(p => p !== peca);
+      }
+
+      this.salvarEstoque();
+      this.registrarVenda(peca, quantidade);
+
+      this.mostrarToast(`✅ Venda de ${quantidade} unidade(s) realizada!`);
+    } else {
+      alert('❌ Estoque insuficiente!');
     }
+  }
 
-    const venda = {
-      data: new Date().toLocaleDateString(),
-      hora: new Date().toLocaleTimeString(),
-      pedido: Math.floor(Math.random() * 1000),
-      codigo: Math.floor(Math.random() * 1000),
-      produto: peca.nome,
-      valor: peca.preco * this.quantidade,
-      formaPagamento: this.formaPagamento
-    };
+  salvarEstoque(): void {
+    localStorage.setItem('pecas', JSON.stringify(this.pecasDisponiveis));
+  }
 
+  registrarVenda(peca: any, quantidade: number): void {
     const vendas = JSON.parse(localStorage.getItem('vendas') || '[]');
-    vendas.push(venda);
+    vendas.push({
+      produto: peca.nome,
+      preco: peca.preco,
+      quantidade: quantidade,
+      data: new Date()
+    });
     localStorage.setItem('vendas', JSON.stringify(vendas));
-
-    // Atualiza estoque
-    peca.estoque -= this.quantidade;
-    localStorage.setItem('pecas', JSON.stringify(this.pecas));
-
-    this.ultimaVenda = venda;
-    this.mensagem = 'Venda realizada com sucesso!';
-    this.produtoSelecionado = '';
-    this.quantidade = 1;
-    this.formaPagamento = 'Dinheiro';
-
-    this.audioSucesso?.nativeElement?.play();
   }
 
-  imprimirRecibo(): void {
-    if (!this.ultimaVenda) return;
-
-    const recibo = `
-      🚗 Loja Automotiva
-      ---------------------------
-      Produto: ${this.ultimaVenda.produto}
-      Quantidade: ${this.quantidade}
-      Valor: R$ ${this.ultimaVenda.valor.toFixed(2)}
-      Forma de Pagamento: ${this.ultimaVenda.formaPagamento}
-      Data: ${this.ultimaVenda.data}
-      Hora: ${this.ultimaVenda.hora}
-      ---------------------------
-      Obrigado pela compra!
-     !! Volte Sempre !!
+  mostrarToast(mensagem: string): void {
+    const toast = document.createElement('div');
+    toast.className = 'toast align-items-center text-bg-success border-0 show';
+    toast.style.position = 'fixed';
+    toast.style.bottom = '1rem';
+    toast.style.right = '1rem';
+    toast.innerHTML = `
+      <div class="d-flex">
+        <div class="toast-body">
+          ${mensagem}
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+      </div>
     `;
+    document.body.appendChild(toast);
 
-    const win = window.open('', '_blank');
-    win?.document.write(`<pre>${recibo}</pre>`);
-    win?.print();
-    win?.close();
+    setTimeout(() => {
+      toast.remove();
+    }, 3000);
   }
 }

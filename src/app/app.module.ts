@@ -1,34 +1,36 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { VendasRealizadasComponent } from './components/vendas-realizadas/vendas-realizadas.component';
+
+// Componentes
+import { CadastroComponent } from './components/cadastro/cadastro.component';
 import { EstoqueComponent } from './components/estoque/estoque.component';
-import { CadastroPecaComponent } from './components/cadastro-peca/cadastro-peca.component';
 import { VendaComponent } from './components/venda/venda.component';
+import { VendasRealizadasComponent } from './components/vendas-realizadas/vendas-realizadas.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { AbrirCaixaComponent } from './components/abrir-caixa/abrir-caixa.component';
+import { FecharCaixaComponent } from './components/fechar-caixa/fechar-caixa.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    VendasRealizadasComponent,
+    CadastroComponent,
     EstoqueComponent,
-    CadastroPecaComponent,
-    VendaComponent
+    VendaComponent,
+    VendasRealizadasComponent,
+    DashboardComponent,
+    AbrirCaixaComponent,
+    FecharCaixaComponent
   ],
   imports: [
     BrowserModule,
-    CommonModule,
     FormsModule,
-    RouterModule.forRoot([
-      { path: '', redirectTo: 'vendas', pathMatch: 'full' },
-      { path: 'vendas', component: VendasRealizadasComponent },
-      { path: 'estoque', component: EstoqueComponent },
-      { path: 'cadastro', component: CadastroPecaComponent },
-      { path: 'venda', component: VendaComponent }
-    ])
+    CommonModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

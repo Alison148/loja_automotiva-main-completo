@@ -1,59 +1,28 @@
-# AngularLojaAutomotiva
+# 🚗 Loja Automotiva - Sistema de Vendas Angular
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.7.
+Sistema completo de gerenciamento de peças automotivas!
 
-## Development server
+## 🔥 Funcionalidades
+- Cadastro de Peças
+- Controle de Estoque
+- Realizar Venda
+- Abrir Caixa / Fechar Caixa
+- Vendas Realizadas
+- Relatório de Vendas (Gráfico 📊 + Exportar PDF 📄)
+- Toasts de Sucesso e Erro
+- Destaque em Estoque Baixo
+- Layout Moderno com Bootstrap 5
+- Sistema 100% Responsivo (Mobile / Desktop)
 
-To start a local development server, run:
+## ⚙️ Tecnologias Utilizadas
+- Angular 17
+- Bootstrap 5
+- Chart.js
+- html2pdf.js
 
+## 🚀 Como Rodar o Projeto
+
+1. Clone o projeto ou extraia o ZIP
+2. Acesse a pasta do projeto pelo terminal:
 ```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+cd loja-automotiva

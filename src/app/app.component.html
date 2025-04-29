@@ -1,11 +1,37 @@
-<nav class="navbar navbar-expand navbar-dark bg-dark mb-4 px-4">
-  <span class="navbar-brand fs-4">🚗 Loja Automotiva</span>
-  <div class="navbar-nav">
-    <a class="nav-link" routerLink="/cadastro">➕ Cadastrar Peça</a>
-    <a class="nav-link" routerLink="/estoque">📦 Estoque</a>
-    <a class="nav-link" routerLink="/venda">💸 Vender</a>
-    <a class="nav-link" routerLink="/vendas">🧾 Vendas Realizadas</a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow-sm">
+  <div class="container-fluid">
+    <a class="navbar-brand" routerLink="/">🚗 Loja Automotiva</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/cadastro">➕ Cadastro</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/estoque">📦 Estoque</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/venda">💸 Venda</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/vendas-realizadas">🧾 Vendas Realizadas</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/dashboard">📊 Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="btn btn-success btn-sm ms-2" routerLink="/abrir-caixa">🏦 Abrir Caixa</a>
+        </li>
+        <li class="nav-item">
+          <a class="btn btn-danger btn-sm ms-2" routerLink="/fechar-caixa">🏁 Fechar Caixa</a>
+        </li>
+      </ul>
+    </div>
   </div>
 </nav>
 
-<router-outlet></router-outlet>
+<div class="container mt-4">
+  <router-outlet></router-outlet>
+</div>

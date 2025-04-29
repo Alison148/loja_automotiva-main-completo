@@ -1,21 +1,24 @@
 import { NgModule } from '@angular/core';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { CupomComponent } from './components/cupom/cupom.component';
 import { RouterModule, Routes } from '@angular/router';
 
-import { PecasComponent } from './components/pecas/pecas.component';
+import { CadastroComponent } from './components/cadastro/cadastro.component';
 import { EstoqueComponent } from './components/estoque/estoque.component';
 import { VendaComponent } from './components/venda/venda.component';
 import { VendasRealizadasComponent } from './components/vendas-realizadas/vendas-realizadas.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { AbrirCaixaComponent } from './components/abrir-caixa/abrir-caixa.component';
+import { FecharCaixaComponent } from './components/fechar-caixa/fechar-caixa.component';
 
 const routes: Routes = [
-  { path: 'cupom', component: CupomComponent },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'cadastro-peca', component: PecasComponent },
+  { path: 'cadastro', component: CadastroComponent },
   { path: 'estoque', component: EstoqueComponent },
   { path: 'venda', component: VendaComponent },
   { path: 'vendas-realizadas', component: VendasRealizadasComponent },
-  { path: '', redirectTo: 'cadastro-peca', pathMatch: 'full' }
+  { path: 'dashboard', component: DashboardComponent },
+  { path: 'abrir-caixa', component: AbrirCaixaComponent },
+  { path: 'fechar-caixa', component: FecharCaixaComponent },
+  { path: '', redirectTo: '/cadastro', pathMatch: 'full' }, // Página inicial
+  { path: '**', redirectTo: '/cadastro' } // Rota coringa
 ];
 
 @NgModule({
