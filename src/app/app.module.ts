@@ -15,6 +15,9 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AbrirCaixaComponent } from './components/abrir-caixa/abrir-caixa.component';
 import { FecharCaixaComponent } from './components/fechar-caixa/fechar-caixa.component';
 
+// ✅ Importa o módulo onde o CupomFiscalComponent já está declarado
+import { CupomModule } from './components/cupom-fiscal/cupom.module';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,12 +28,14 @@ import { FecharCaixaComponent } from './components/fechar-caixa/fechar-caixa.com
     DashboardComponent,
     AbrirCaixaComponent,
     FecharCaixaComponent
+    // ❌ CupomFiscalComponent REMOVIDO daqui
   ],
   imports: [
     BrowserModule,
     FormsModule,
     CommonModule,
-    AppRoutingModule
+    AppRoutingModule,
+    CupomModule // ✅ Adicionado aqui
   ],
   providers: [],
   bootstrap: [AppComponent]

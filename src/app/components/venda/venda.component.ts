@@ -7,7 +7,13 @@ import { Component, OnInit } from '@angular/core';
 export class VendaComponent implements OnInit {
   pecasDisponiveis: any[] = [];
   caixaAberto: boolean = false;
-  quantidadeSelecionada: { [key: string]: number } = {}; // Guarda a quantidade por produto
+  quantidadeSelecionada: { [key: string]: number } = {};
+
+  // NOVO: Variáveis para cupom fiscal e pagamento
+  ultimaVendaRealizada: any = null;
+  formaPagamento: string = 'Dinheiro';
+  parcelas: number = 1;
+  valorParcela: number = 0;
 
   ngOnInit(): void {
     this.carregarPecas();
@@ -42,6 +48,20 @@ export class VendaComponent implements OnInit {
       this.salvarEstoque();
       this.registrarVenda(peca, quantidade);
 
+      // NOVO: Gera cupom fiscal
+      const total = peca.preco * quantidade;
+      this.valorParcela = this.formaPagamento === 'Cartão de Crédito' && this.parcelas > 1
+        ? +(total / this.parcelas).toFixed(2)
+        : total;
+
+      this.ultimaVendaRealizada = {
+        produto: peca.nome,
+        preco: peca.preco,
+        quantidade,
+        valor: total,
+        data: new Date()
+      };
+
       this.mostrarToast(`✅ Venda de ${quantidade} unidade(s) realizada!`);
     } else {
       alert('❌ Estoque insuficiente!');
@@ -58,7 +78,8 @@ export class VendaComponent implements OnInit {
       produto: peca.nome,
       preco: peca.preco,
       quantidade: quantidade,
-      data: new Date()
+      data: new Date(),
+      formaPagamento: this.formaPagamento
     });
     localStorage.setItem('vendas', JSON.stringify(vendas));
   }

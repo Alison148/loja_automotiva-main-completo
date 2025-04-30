@@ -1,0 +1,20 @@
+.cupom-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px dashed #000;
+    font-family: monospace;
+    background-color: #fff;
+    color: #000;
+  }
+  
+  .recarga label {
+    font-weight: bold;
+  }
+  
+  @media print {
+    .no-print {
+      display: none;
+    }
+  }
+  
