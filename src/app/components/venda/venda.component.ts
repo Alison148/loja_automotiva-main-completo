@@ -9,7 +9,6 @@ export class VendaComponent implements OnInit {
   caixaAberto: boolean = false;
   quantidadeSelecionada: { [key: string]: number } = {};
 
-  // NOVO: Variáveis para cupom fiscal e pagamento
   ultimaVendaRealizada: any = null;
   formaPagamento: string = 'Dinheiro';
   parcelas: number = 1;
@@ -48,7 +47,6 @@ export class VendaComponent implements OnInit {
       this.salvarEstoque();
       this.registrarVenda(peca, quantidade);
 
-      // NOVO: Gera cupom fiscal
       const total = peca.preco * quantidade;
       this.valorParcela = this.formaPagamento === 'Cartão de Crédito' && this.parcelas > 1
         ? +(total / this.parcelas).toFixed(2)
@@ -73,15 +71,16 @@ export class VendaComponent implements OnInit {
   }
 
   registrarVenda(peca: any, quantidade: number): void {
-    const vendas = JSON.parse(localStorage.getItem('vendas') || '[]');
+    const vendas = JSON.parse(localStorage.getItem('vendasRealizadas') || '[]');
     vendas.push({
       produto: peca.nome,
       preco: peca.preco,
       quantidade: quantidade,
-      data: new Date(),
+      valor: peca.preco * quantidade,
+      data: new Date().toISOString(), // ISO format para comparar corretamente
       formaPagamento: this.formaPagamento
     });
-    localStorage.setItem('vendas', JSON.stringify(vendas));
+    localStorage.setItem('vendasRealizadas', JSON.stringify(vendas));
   }
 
   mostrarToast(mensagem: string): void {

@@ -16,4 +16,4 @@ import { CupomFiscalComponent } from './cupom-fiscal.component';
     CupomFiscalComponent
   ]
 })
-export class CupomModule {}
+export class CupomModule {}  

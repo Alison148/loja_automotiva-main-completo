@@ -1,8 +1,12 @@
-
 <div class="container mt-4">
   <h2>🧾 Vendas Realizadas</h2>
+
+  <button class="btn btn-danger mb-3" (click)="limparVendas()">
+    🗑 Limpar Vendas
+  </button>
+
   <table class="table table-bordered table-striped">
-    <thead>
+    <thead class="table-dark text-center">
       <tr>
         <th>Produto</th>
         <th>Quantidade</th>
@@ -12,7 +16,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let venda of vendas">
+      <tr *ngFor="let venda of vendas" class="text-center">
         <td>{{ venda.produto }}</td>
         <td>{{ venda.quantidade }}</td>
         <td>R$ {{ venda.preco }}</td>
@@ -21,5 +25,10 @@
       </tr>
     </tbody>
   </table>
-  <h4 class="text-end">💰 Total: R$ {{ total }}</h4>
+
+  <div *ngIf="vendas.length === 0" class="alert alert-info text-center">
+    Nenhuma venda realizada.
+  </div>
+
+  <h4 class="text-end mt-4">💰 Total: R$ {{ total }}</h4>
 </div>

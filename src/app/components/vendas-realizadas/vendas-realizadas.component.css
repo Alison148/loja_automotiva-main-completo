@@ -1,5 +1,18 @@
-table {
-    margin-top: 20px;
-    width: 100%;
+@media print {
+  body * {
+    visibility: hidden;
   }
-  
+  #relatorio-vendas, #relatorio-vendas * {
+    visibility: visible;
+  }
+  #relatorio-vendas {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background: white;
+  }
+  .btn {
+    display: none !important; /* Esconde o botão de imprimir na impressão */
+  }
+}

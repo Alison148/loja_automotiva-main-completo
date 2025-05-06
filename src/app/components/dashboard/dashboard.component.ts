@@ -1,56 +1,52 @@
-import { Component, AfterViewInit } from '@angular/core';
-import Chart from 'chart.js/auto';
-import html2pdf from 'html2pdf.js';
+import { Component, OnInit } from '@angular/core';
+import { Chart, registerables } from 'chart.js';
+
+Chart.register(...registerables);
 
 @Component({
   selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html'
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements AfterViewInit {
+export class DashboardComponent implements OnInit {
   vendas: any[] = [];
-  chart: any;
 
-  ngAfterViewInit(): void {
-    this.carregarVendas();
+  ngOnInit(): void {
+    const dados = localStorage.getItem('vendasRealizadas');
+    this.vendas = dados ? JSON.parse(dados) : [];
+
     this.gerarGrafico();
   }
 
-  carregarVendas(): void {
-    this.vendas = JSON.parse(localStorage.getItem('vendas') || '[]');
-  }
-
   gerarGrafico(): void {
-    const produtosVendidos = this.vendas.reduce((acc: any, venda: any) => {
-      acc[venda.produto] = (acc[venda.produto] || 0) + 1;
-      return acc;
-    }, {});
+    const vendasPorDia: { [data: string]: number } = {};
 
-    const labels = Object.keys(produtosVendidos);
-    const data = Object.values(produtosVendidos);
+    for (const venda of this.vendas) {
+      const dataFormatada = new Date(venda.data).toLocaleDateString('pt-BR');
+      vendasPorDia[dataFormatada] = (vendasPorDia[dataFormatada] || 0) + venda.valor;
+    }
 
-    this.chart = new Chart('vendasChart', {
+    const labels = Object.keys(vendasPorDia);
+    const valores = Object.values(vendasPorDia);
+
+    new Chart('graficoVendas', {
       type: 'bar',
       data: {
         labels: labels,
         datasets: [{
-          label: 'Quantidade Vendida',
-          data: data,
-          backgroundColor: 'rgba(13, 110, 253, 0.7)'
+          label: '💰 Vendas por Dia (R$)',
+          data: valores,
+          borderWidth: 1
         }]
       },
       options: {
         responsive: true,
-        plugins: {
-          legend: {
-            display: false
+        scales: {
+          y: {
+            beginAtZero: true
           }
         }
       }
     });
-  }
-
-  exportarPDF(): void {
-    const elemento = document.getElementById('dashboard');
-    html2pdf().from(elemento).save('relatorio-vendas.pdf');
   }
 }

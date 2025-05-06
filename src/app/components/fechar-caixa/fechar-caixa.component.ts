@@ -2,48 +2,58 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-fechar-caixa',
-  templateUrl: './fechar-caixa.component.html'
+  templateUrl: './fechar-caixa.component.html',
+  styleUrls: ['./fechar-caixa.component.css']
 })
 export class FecharCaixaComponent implements OnInit {
-  vendasHoje: any[] = [];
   totalVendidoHoje: number = 0;
   totalItensVendidosHoje: number = 0;
+  vendas: any[] = [];
+
+  operador: string = 'Alison Antunes';
+  numeroCaixa: number = 1;
 
   ngOnInit(): void {
-    this.filtrarVendasDeHoje();
+    const dados = localStorage.getItem('vendasRealizadas');
+    this.vendas = dados ? JSON.parse(dados) : [];
+    this.calcularTotaisDoDia();
   }
 
-  filtrarVendasDeHoje(): void {
-    const todasVendas = JSON.parse(localStorage.getItem('vendas') || '[]');
-    const hoje = new Date().toISOString().split('T')[0];
+  calcularTotaisDoDia(): void {
+    const hoje = new Date().toDateString();
+    this.totalVendidoHoje = 0;
+    this.totalItensVendidosHoje = 0;
 
-    this.vendasHoje = todasVendas.filter((venda: any) => {
-      const dataVenda = new Date(venda.data).toISOString().split('T')[0];
-      return dataVenda === hoje;
-    });
-
-    // Agora calcula total de dinheiro e total de itens
-    this.totalVendidoHoje = this.vendasHoje.reduce((acc, venda) => acc + (venda.preco * venda.quantidade), 0);
-    this.totalItensVendidosHoje = this.vendasHoje.reduce((acc, venda) => acc + venda.quantidade, 0);
+    for (const venda of this.vendas) {
+      const dataVenda = new Date(venda.data).toDateString();
+      if (dataVenda === hoje) {
+        this.totalVendidoHoje += venda.valor;
+        this.totalItensVendidosHoje += venda.quantidade || 1;
+      }
+    }
   }
 
   fecharCaixa(): void {
-    // Fecha o caixa e apaga as vendas de hoje
-    localStorage.setItem('caixaAberto', 'false');
+    if (confirm('Deseja realmente fechar o caixa?')) {
+      const hoje = new Date().toDateString();
+      const finalizadas = JSON.parse(localStorage.getItem('vendasFinalizadas') || '[]');
 
-    const todasVendas = JSON.parse(localStorage.getItem('vendas') || '[]');
-    const hoje = new Date().toISOString().split('T')[0];
+      const vendasHoje = this.vendas.filter((v: any) =>
+        new Date(v.data).toDateString() === hoje
+      );
 
-    const vendasRestantes = todasVendas.filter((venda: any) => {
-      const dataVenda = new Date(venda.data).toISOString().split('T')[0];
-      return dataVenda !== hoje;
-    });
+      const vendasRestantes = this.vendas.filter((v: any) =>
+        new Date(v.data).toDateString() !== hoje
+      );
 
-    localStorage.setItem('vendas', JSON.stringify(vendasRestantes));
+      localStorage.setItem('vendasFinalizadas', JSON.stringify([...finalizadas, ...vendasHoje]));
+      localStorage.setItem('vendasRealizadas', JSON.stringify(vendasRestantes));
 
-    alert(`✅ Caixa fechado!\nTotal vendido hoje: ${this.totalVendidoHoje.toLocaleString('pt-BR', {
-      style: 'currency',
-      currency: 'BRL'
-    })}\nTotal de itens vendidos: ${this.totalItensVendidosHoje}`);
+      alert(`✅ Caixa fechado por ${this.operador} . Vendas do dia foram finalizadas.`);
+    }
+  }
+
+  salvarOperador(): void {
+    alert(`🧑‍💼 Operador ${this.operador}  salvo com sucesso!`);
   }
 }

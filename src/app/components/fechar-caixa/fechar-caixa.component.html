@@ -3,13 +3,29 @@
     <h2>🏁 Fechar Caixa</h2>
 
     <p class="mt-4 fs-4">
-      💵 Total Vendido Hoje: <strong>{{ totalVendidoHoje | currency:'BRL' }}</strong>
+      💵 Total Vendido Hoje:
+      <strong>{{ totalVendidoHoje | currency:'BRL' }}</strong>
     </p>
 
     <p class="fs-4">
-      📦 Total de Itens Vendidos: <strong>{{ totalItensVendidosHoje }}</strong>
+      📦 Total de Itens Vendidos:
+      <strong>{{ totalItensVendidosHoje }}</strong>
     </p>
 
-    <button class="btn btn-danger btn-lg mt-2" (click)="fecharCaixa()">Fechar Caixa</button>
+    <form (submit)="salvarOperador()" class="row justify-content-center mt-4 g-2">
+      <div class="col-md-4">
+        <input [(ngModel)]="operador" name="operador" type="text" class="form-control"
+          placeholder="Nome do Operador" required />
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-primary w-100" type="submit">
+          💾 Salvar Operador
+        </button>
+      </div>
+    </form>
+
+    <button class="btn btn-danger mt-4 w-100" (click)="fecharCaixa()">
+      🚫 Fechar Caixa
+    </button>
   </div>
 </div>

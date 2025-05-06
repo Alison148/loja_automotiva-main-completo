@@ -1,8 +1,12 @@
-<div class="container mt-5 pt-5">
-  <h2 class="text-center mb-4">🧾 Vendas Realizadas</h2>
+<div class="container mt-4">
+  <h2 class="text-center mb-4">📋 Vendas Realizadas</h2>
 
-  <div class="table-responsive">
-    <table class="table table-striped table-bordered align-middle shadow-sm">
+  <div *ngIf="vendas.length === 0" class="alert alert-warning text-center">
+    Nenhuma venda registrada.
+  </div>
+
+  <div *ngIf="vendas.length > 0" class="table-responsive">
+    <table class="table table-bordered table-striped text-center">
       <thead class="table-dark">
         <tr>
           <th>Produto</th>
@@ -17,10 +21,15 @@
           <td>{{ venda.produto }}</td>
           <td>{{ venda.preco | currency:'BRL' }}</td>
           <td>{{ venda.quantidade }}</td>
-          <td>{{ venda.preco * venda.quantidade | currency:'BRL' }}</td>
-          <td>{{ venda.data | date:'dd/MM/yyyy HH:mm' }}</td> <!-- 👈 Aqui está o segredo -->
+          <td>{{ venda.valor | currency:'BRL' }}</td>
+          <td>{{ venda.data | date:'short' }}</td>
         </tr>
       </tbody>
     </table>
+  </div>
+
+  <div class="mt-4 text-center">
+    <p class="fs-5">💰 Total do Dia: <strong>{{ totalDia | currency:'BRL' }}</strong></p>
+    <p class="fs-5">📅 Total do Mês: <strong>{{ totalMes | currency:'BRL' }}</strong></p>
   </div>
 </div>

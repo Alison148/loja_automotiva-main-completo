@@ -1,6 +1,4 @@
-
 import { Component, OnInit } from '@angular/core';
-import { VendaService, Venda } from '../../services/venda.service';
 
 @Component({
   selector: 'app-vendas-realizadas',
@@ -8,13 +6,31 @@ import { VendaService, Venda } from '../../services/venda.service';
   styleUrls: ['./vendas-realizadas.component.css']
 })
 export class VendasRealizadasComponent implements OnInit {
-  vendas: Venda[] = [];
+  vendas: any[] = [];
   total: number = 0;
 
-  constructor(private vendaService: VendaService) {}
-
   ngOnInit(): void {
-    this.vendas = this.vendaService.getVendas();
-    this.total = this.vendas.reduce((acc, v) => acc + v.subtotal, 0);
+    this.carregarVendas();
+  }
+
+  carregarVendas(): void {
+    const dados = localStorage.getItem('vendasRealizadas');
+    this.vendas = dados ? JSON.parse(dados) : [];
+    this.calcularTotal();
+  }
+
+  calcularTotal(): void {
+    this.total = this.vendas.reduce((soma, venda) => soma + venda.subtotal, 0);
+  }
+
+  limparVendas(): void {
+    if (confirm('Tem certeza que deseja apagar todas as vendas?')) {
+      localStorage.removeItem('vendasRealizadas');
+      this.vendas = [];
+      this.total = 0;
+
+      // Se tiver gráfico, chame o método aqui também
+      // this.gerarGraficoLinha();
+    }
   }
 }

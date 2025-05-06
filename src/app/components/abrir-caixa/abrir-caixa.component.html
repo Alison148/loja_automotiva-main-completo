@@ -1,7 +1,26 @@
-<div class="container mt-5 pt-5">
-    <div class="card shadow p-4 text-center">
-      <h2>🏦 Abrir Caixa</h2>
-      <button class="btn btn-success btn-lg mt-4" (click)="abrirCaixa()">Abrir Caixa</button>
-    </div>
+<div class="container mt-5">
+  <div class="card shadow p-4">
+    <h2 class="text-center">🔓 Abrir Caixa</h2>
+
+    <form (ngSubmit)="abrirCaixa()" class="mt-4">
+      <div class="mb-3">
+        <label class="form-label">👤 Nome do Operador:</label>
+        <input type="text" class="form-control" [(ngModel)]="operador" name="operador" required />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">🧾 Número do Caixa:</label>
+        <input type="number" class="form-control" [(ngModel)]="numeroCaixa" name="numeroCaixa" required />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">💰 Fundo de Caixa (R$):</label>
+        <input type="number" class="form-control" [(ngModel)]="fundoCaixa" name="fundoCaixa" required min="0.01" step="0.01" />
+      </div>
+
+      <div class="d-grid gap-2">
+        <button class="btn btn-success" type="submit">✅ Abrir Caixa</button>
+      </div>
+    </form>
   </div>
-  
+</div>

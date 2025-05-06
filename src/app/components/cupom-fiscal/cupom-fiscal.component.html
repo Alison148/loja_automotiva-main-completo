@@ -1,34 +1,48 @@
-<div class="cupom-container">
-  <h4 class="text-center">🧾 Antunes Tech - Cupom Fiscal</h4>
-  <hr />
-  <p><strong>Produto:</strong> {{ venda.produto }}</p>
-  <p><strong>Quantidade:</strong> {{ venda.quantidade }}</p>
-  <p><strong>Subtotal:</strong> {{ venda.valor | currency:'BRL' }}</p>
-  <p><strong>Forma de Pagamento:</strong> {{ formaPagamento }}</p>
+<div class="container mt-4">
+  <div class="card p-4 shadow">
+    <h4 class="text-center">🧾 Antunes Tech - Cupom Fiscal</h4>
+    <hr />
 
-  <ng-container *ngIf="formaPagamento === 'Cartão de Crédito'">
-    <p><strong>Parcelas:</strong> {{ parcelas }}x de {{ valorParcela | currency:'BRL' }}</p>
-  </ng-container>
+    <div *ngIf="venda?.itens?.length > 0">
+      <div *ngFor="let item of venda.itens">
+        <p><strong>Produto:</strong> {{ item.nome }}</p>
+        <p><strong>Quantidade:</strong> {{ item.quantidade }}</p>
+        <p><strong>Subtotal:</strong> {{ (item.preco * item.quantidade) | currency:'BRL' }}</p>
+        <hr />
+      </div>
 
-  <p><strong>Data:</strong> {{ venda.data | date:'dd/MM/yyyy HH:mm' }}</p>
+      <p><strong>Forma de Pagamento:</strong> {{ formaPagamento }}</p>
 
-  <hr />
-  <h5>📱 Recarga de Celular</h5>
-  <div class="recarga">
-    <label class="form-label">Operadora:</label>
-    <select [(ngModel)]="recargaOperadora" class="form-select mb-2">
-      <option value="">Selecione</option>
-      <option>Vivo</option>
-      <option>Claro</option>
-      <option>Tim 5G</option>
-    </select>
+      <ng-container *ngIf="formaPagamento === 'Cartão de Crédito'">
+        <p><strong>Parcelas:</strong> {{ parcelas }}x de {{ valorParcela | currency:'BRL' }}</p>
+      </ng-container>
 
-    <label class="form-label">Valor (R$):</label>
-    <input type="number" [(ngModel)]="valorRecarga" class="form-control mb-2" min="1" />
+      <p><strong>Total Geral:</strong> {{ totalGeral | currency:'BRL' }}</p>
+      <p><strong>Total de Itens:</strong> {{ totalItens }}</p>
+      <p><strong>Data:</strong> {{ venda.data | date:'dd/MM/yyyy HH:mm' }}</p>
 
-    <button class="btn btn-success w-100" (click)="realizarRecarga()">📲 Fazer Recarga</button>
+      <hr />
+      <p class="text-center">Obrigado pela preferência!</p>
+    </div>
+
+    <!-- Recarga de Celular -->
+    <h5 class="mt-4">📱 Recarga de Celular</h5>
+    <div class="recarga">
+      <label class="form-label">Operadora:</label>
+      <select [(ngModel)]="recargaOperadora" class="form-select mb-2">
+        <option value="Vivo">Vivo</option>
+        <option value="Claro">Claro</option>
+        <option value="TIM">TIM</option>
+        <option value="Oi">Oi</option>
+      </select>
+
+      <label class="form-label">Valor da Recarga (R$):</label>
+      <input type="number" [(ngModel)]="valorRecarga" class="form-control mb-2" min="1" />
+
+      <button class="btn btn-success w-100" (click)="realizarRecarga()">📲 Fazer Recarga</button>
+    </div>
+
+    <!-- Botão de impressão -->
+    <button class="btn btn-dark w-100 mt-3 no-print" (click)="imprimir()">🖨️ Imprimir</button>
   </div>
-
-  <hr />
-  <button class="btn btn-dark w-100 mt-3 no-print" (click)="imprimir()">🖨️ Imprimir</button>
 </div>
