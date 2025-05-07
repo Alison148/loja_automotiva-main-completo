@@ -38,3 +38,24 @@
     [valorParcela]="valorParcela">
   </app-cupom-fiscal>
 </div>
+
+<!-- 📱 Recarga de Celular -->
+<div class="container mt-5">
+  <h4 class="text-center mb-4">📱 Registrar Recarga de Celular</h4>
+
+  <div class="card p-4 shadow">
+    <div class="mb-3">
+      <label class="form-label">Número do Celular:</label>
+      <input type="text" [(ngModel)]="numeroRecarga" class="form-control" placeholder="Ex: (11) 91234-5678">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Valor da Recarga:</label>
+      <input type="number" [(ngModel)]="valorRecarga" class="form-control" placeholder="Ex: 20">
+    </div>
+
+    <button class="btn btn-success w-100" (click)="salvarRecarga(numeroRecarga, valorRecarga)">
+      💾 Registrar Recarga
+    </button>
+  </div>
+</div>

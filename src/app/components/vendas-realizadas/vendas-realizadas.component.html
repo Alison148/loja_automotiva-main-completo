@@ -22,7 +22,7 @@
           <td>{{ venda.preco | currency:'BRL' }}</td>
           <td>{{ venda.quantidade }}</td>
           <td>{{ venda.valor | currency:'BRL' }}</td>
-          <td>{{ venda.data | date:'short' }}</td>
+          <td>{{ venda.data | date:'dd/MM/yyyy HH:mm' }}</td>
         </tr>
       </tbody>
     </table>
@@ -30,6 +30,5 @@
 
   <div class="mt-4 text-center">
     <p class="fs-5">💰 Total do Dia: <strong>{{ totalDia | currency:'BRL' }}</strong></p>
-    <p class="fs-5">📅 Total do Mês: <strong>{{ totalMes | currency:'BRL' }}</strong></p>
   </div>
 </div>

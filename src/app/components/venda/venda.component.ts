@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-venda',
+  selector: 'app-vendas',
   templateUrl: './venda.component.html'
+  
 })
 export class VendaComponent implements OnInit {
   pecasDisponiveis: any[] = [];
@@ -13,6 +14,10 @@ export class VendaComponent implements OnInit {
   formaPagamento: string = 'Dinheiro';
   parcelas: number = 1;
   valorParcela: number = 0;
+
+  // Variáveis para recarga
+  numeroRecarga: string = '';
+  valorRecarga: number = 0;
 
   ngOnInit(): void {
     this.carregarPecas();
@@ -77,7 +82,7 @@ export class VendaComponent implements OnInit {
       preco: peca.preco,
       quantidade: quantidade,
       valor: peca.preco * quantidade,
-      data: new Date().toISOString(), // ISO format para comparar corretamente
+      data: new Date().toISOString(),
       formaPagamento: this.formaPagamento
     });
     localStorage.setItem('vendasRealizadas', JSON.stringify(vendas));
@@ -102,5 +107,37 @@ export class VendaComponent implements OnInit {
     setTimeout(() => {
       toast.remove();
     }, 3000);
+  }
+
+  // ✅ NOVO MÉTODO: Salvar recarga de celular
+  salvarRecarga(numero: string, valor: number): void {
+    if (!this.caixaAberto) {
+      alert('❌ Você precisa abrir o caixa antes de registrar uma recarga!');
+      return;
+    }
+
+    if (!numero || valor <= 0) {
+      alert('❌ Informe um número válido e um valor maior que zero!');
+      return;
+    }
+
+    const vendasExistentes = JSON.parse(localStorage.getItem('vendasRealizadas') || '[]');
+
+    const novaRecarga = {
+      produto: `Recarga ${numero}`,
+      preco: valor,
+      quantidade: 1,
+      valor: valor,
+      data: new Date().toISOString(),
+      formaPagamento: this.formaPagamento
+    };
+
+    vendasExistentes.push(novaRecarga);
+    localStorage.setItem('vendasRealizadas', JSON.stringify(vendasExistentes));
+
+    this.mostrarToast(`✅ Recarga de ${valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} para ${numero} registrada!`);
+
+    this.numeroRecarga = '';
+    this.valorRecarga = 0;
   }
 }
