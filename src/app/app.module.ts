@@ -15,6 +15,9 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AbrirCaixaComponent } from './components/abrir-caixa/abrir-caixa.component';
 import { FecharCaixaComponent } from './components/fechar-caixa/fechar-caixa.component';
 
+// Corrigindo a importação do Chart.js
+import { Chart } from 'chart.js';
+
 // ✅ Importa o módulo onde o CupomFiscalComponent já está declarado
 import { CupomModule } from './components/cupom-fiscal/cupom.module';
 
@@ -28,7 +31,6 @@ import { CupomModule } from './components/cupom-fiscal/cupom.module';
     DashboardComponent,
     AbrirCaixaComponent,
     FecharCaixaComponent
-    // ❌ CupomFiscalComponent REMOVIDO daqui
   ],
   imports: [
     BrowserModule,
