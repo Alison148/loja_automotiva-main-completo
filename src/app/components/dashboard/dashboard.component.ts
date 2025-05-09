@@ -1,7 +1,6 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { Chart, registerables } from 'chart.js';
-
-Chart.register(...registerables);
+// dashboard.component.ts
+import { AfterViewInit, Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import Chart from 'chart.js/auto';  // já registra tudo por você
 
 @Component({
   selector: 'app-dashboard',
@@ -9,6 +8,9 @@ Chart.register(...registerables);
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit, AfterViewInit {
+  @ViewChild('graficoVendasProduto', { static: true })
+  canvasVendas!: ElementRef<HTMLCanvasElement>;
+
   vendas: any[] = [];
 
   ngOnInit(): void {
@@ -20,37 +22,35 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.createProductSalesChart();
   }
 
-  // Gráfico de Vendas por Produto (Linha)
-  createProductSalesChart() {
-    const vendasPorProduto: { [produto: string]: number } = {};
-
-    // Agrupar vendas por produto
-    for (const venda of this.vendas) {
-      const produto = venda.produto || 'Produto Desconhecido'; // Nome do produto da venda
-      vendasPorProduto[produto] = (vendasPorProduto[produto] || 0) + venda.valor;
+  private createProductSalesChart() {
+    // agrupa valores
+    const vendasPorProduto: Record<string, number> = {};
+    for (const v of this.vendas) {
+      const nome = v.produto ?? 'Produto Desconhecido';
+      vendasPorProduto[nome] = (vendasPorProduto[nome] || 0) + v.valor;
     }
 
     const labels = Object.keys(vendasPorProduto);
-    const valores = Object.values(vendasPorProduto);
+    const data   = Object.values(vendasPorProduto);
 
-    new Chart('graficoVendasProduto', {
+    // pega o contexto 2D do canvas
+    const ctx = this.canvasVendas.nativeElement.getContext('2d')!;
+    new Chart(ctx, {
       type: 'line',
       data: {
-        labels: labels,
+        labels,
         datasets: [{
           label: 'Vendas por Produto (R$)',
-          data: valores,
+          data,
           borderColor: '#4caf50',
           backgroundColor: 'rgba(17, 0, 248, 0.2)',
           fill: true,
-          tension: 0.3 // Suavidade na linha
+          tension: 0.3
         }]
       },
       options: {
         responsive: true,
-        scales: {
-          y: { beginAtZero: true }
-        },
+        scales: { y: { beginAtZero: true } },
         plugins: {
           title: {
             display: true,
