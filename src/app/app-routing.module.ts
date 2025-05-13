@@ -10,16 +10,18 @@ import { AbrirCaixaComponent } from './components/abrir-caixa/abrir-caixa.compon
 import { FecharCaixaComponent } from './components/fechar-caixa/fechar-caixa.component';
 import { AuthComponent } from './components/auth/auth.component';
 
+import { AuthGuard } from './guards/auth.guard';
+
 const routes: Routes = [
   { path: 'login', component: AuthComponent },
-  { path: 'cadastro', component: CadastroComponent },
-  { path: 'estoque', component: EstoqueComponent },
-  { path: 'venda', component: VendaComponent },
-  { path: 'vendas-realizadas', component: VendasRealizadasComponent },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'abrir-caixa', component: AbrirCaixaComponent },
-  { path: 'fechar-caixa', component: FecharCaixaComponent },
-  { path: '', redirectTo: 'login', pathMatch: 'full' }, // Página inicial como login
+  { path: 'cadastro', component: CadastroComponent, canActivate: [AuthGuard] },
+  { path: 'estoque', component: EstoqueComponent, canActivate: [AuthGuard] },
+  { path: 'venda', component: VendaComponent, canActivate: [AuthGuard] },
+  { path: 'vendas-realizadas', component: VendasRealizadasComponent, canActivate: [AuthGuard] },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'abrir-caixa', component: AbrirCaixaComponent, canActivate: [AuthGuard] },
+  { path: 'fechar-caixa', component: FecharCaixaComponent, canActivate: [AuthGuard] },
+  { path: '', redirectTo: 'login', pathMatch: 'full' }, // Página inicial
   { path: '**', redirectTo: 'login' } // Rota coringa
 ];
 
@@ -27,4 +29,5 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}  
+

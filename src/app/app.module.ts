@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // ✅ Importado aqui
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http'; // ✅ Importado aqui
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -16,10 +17,10 @@ import { AbrirCaixaComponent } from './components/abrir-caixa/abrir-caixa.compon
 import { FecharCaixaComponent } from './components/fechar-caixa/fechar-caixa.component';
 import { AuthComponent } from './components/auth/auth.component';
 
-// Corrigindo a importação do Chart.js
+// Chart.js
 import { Chart } from 'chart.js';
 
-// ✅ Importa o módulo onde o CupomFiscalComponent já está declarado
+// Cupom Fiscal Module
 import { CupomModule } from './components/cupom-fiscal/cupom.module';
 
 @NgModule({
@@ -32,13 +33,14 @@ import { CupomModule } from './components/cupom-fiscal/cupom.module';
     DashboardComponent,
     AbrirCaixaComponent,
     FecharCaixaComponent,
-    AuthComponent // ✅ Incluído o AuthComponent
+    AuthComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    ReactiveFormsModule, // ✅ Importado aqui para usar formGroup, formControlName, etc.
+    ReactiveFormsModule,
     CommonModule,
+    HttpClientModule, // ✅ Adicionado aqui
     AppRoutingModule,
     CupomModule
   ],

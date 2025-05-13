@@ -1,27 +1,35 @@
-<div class="container mt-5" style="max-width: 400px;">
-  <h2 class="text-center">{{ isRegister ? 'Cadastro' : 'Login' }}</h2>
+<div class="login-container">
+  <h2>DJPDV 1.5.3d</h2>
 
-  <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
-    <div class="mb-3">
-      <label for="email" class="form-label">E-mail</label>
-      <input type="email" class="form-control" id="email" formControlName="email" required />
+  <div class="login-box">
+    <h3>Informe a Senha de Perfil Diretoria</h3>
+
+    <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+      <div class="input-group">
+        <label for="email">Usuário:</label>
+        <input type="email" id="email" formControlName="email" />
+      </div>
+
+      <div class="input-group">
+        <label for="password">Senha:</label>
+        <input type="password" id="password" formControlName="password" />
+      </div>
+
+      <div class="button-group">
+        <button type="submit">✔ OK</button>
+        <button type="button" (click)="cancel()">❌ Cancelar</button>
+      </div>
+    </form>
+
+    <div class="info-box">
+      <p>Loja: <strong>001 - DJSYSTEM</strong></p>
+      <p>Terminal: <strong>000</strong></p>
+      <p>I.P.: <strong>192.168.56.1</strong></p>
     </div>
 
-    <div class="mb-3">
-      <label for="password" class="form-label">Senha</label>
-      <input type="password" class="form-control" id="password" formControlName="password" required />
+    <div class="status-box">
+      <p>Status</p>
+      <span class="status online">ON-LINE</span>
     </div>
-
-    <button type="submit" class="btn btn-primary w-100">
-      {{ isRegister ? 'Cadastrar' : 'Entrar' }}
-    </button>
-  </form>
-
-  <p class="text-center mt-3 text-success">{{ loginMessage }}</p>
-
-  <div class="text-center mt-2">
-    <button type="button" class="btn btn-link" (click)="toggleMode()">
-      {{ isRegister ? 'Já tem conta? Faça login' : 'Não tem conta? Cadastre-se' }}
-    </button>
   </div>
 </div>

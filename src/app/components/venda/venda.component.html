@@ -29,16 +29,6 @@
   </div>
 </div>
 
-<!-- Mostra o cupom fiscal após a venda -->
-<div *ngIf="ultimaVendaRealizada" class="mt-4">
-  <app-cupom-fiscal
-    [venda]="ultimaVendaRealizada"
-    [formaPagamento]="formaPagamento"
-    [parcelas]="parcelas"
-    [valorParcela]="valorParcela">
-  </app-cupom-fiscal>
-</div>
-
 <!-- 📱 Recarga de Celular -->
 <div class="container mt-5">
   <h4 class="text-center mb-4">📱 Registrar Recarga de Celular</h4>

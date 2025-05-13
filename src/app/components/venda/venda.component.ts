@@ -137,6 +137,7 @@ export class VendaComponent implements OnInit {
 
     this.mostrarToast(`✅ Recarga de ${valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} para ${numero} registrada!`);
 
+    
     this.numeroRecarga = '';
     this.valorRecarga = 0;
   }
