@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // ✅ Adicionado ReactiveFormsModule
 import { CommonModule } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -14,6 +14,7 @@ import { VendasRealizadasComponent } from './components/vendas-realizadas/vendas
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AbrirCaixaComponent } from './components/abrir-caixa/abrir-caixa.component';
 import { FecharCaixaComponent } from './components/fechar-caixa/fechar-caixa.component';
+import { AuthComponent } from './components/auth/auth.component';
 
 // Corrigindo a importação do Chart.js
 import { Chart } from 'chart.js';
@@ -22,22 +23,24 @@ import { Chart } from 'chart.js';
 import { CupomModule } from './components/cupom-fiscal/cupom.module';
 
 @NgModule({
-  declarations: [
-    AppComponent,
+  declarations: [ 
+    AppComponent, 
     CadastroComponent,
     EstoqueComponent,
     VendaComponent,
     VendasRealizadasComponent,
     DashboardComponent,
     AbrirCaixaComponent,
-    FecharCaixaComponent
+    FecharCaixaComponent,
+    AuthComponent // ✅ Incluído o AuthComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule, // ✅ Adicionado aqui
     CommonModule,
     AppRoutingModule,
-    CupomModule // ✅ Adicionado aqui
+    CupomModule
   ],
   providers: [],
   bootstrap: [AppComponent]

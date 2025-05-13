@@ -1,0 +1,22 @@
+.auth-container {
+  max-width: 400px;
+  margin: auto;
+  padding: 20px;
+  margin-top: 50px;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.btn-primary, .btn-link {
+  width: 100%;
+}
+
+.alert {
+  margin-top: 15px;
+  text-align: center;
+}

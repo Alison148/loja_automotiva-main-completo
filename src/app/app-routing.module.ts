@@ -8,8 +8,10 @@ import { VendasRealizadasComponent } from './components/vendas-realizadas/vendas
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AbrirCaixaComponent } from './components/abrir-caixa/abrir-caixa.component';
 import { FecharCaixaComponent } from './components/fechar-caixa/fechar-caixa.component';
+import { AuthComponent } from './components/auth/auth.component';
 
 const routes: Routes = [
+  { path: 'login', component: AuthComponent },
   { path: 'cadastro', component: CadastroComponent },
   { path: 'estoque', component: EstoqueComponent },
   { path: 'venda', component: VendaComponent },
@@ -17,8 +19,8 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'abrir-caixa', component: AbrirCaixaComponent },
   { path: 'fechar-caixa', component: FecharCaixaComponent },
-  { path: '', redirectTo: '/cadastro', pathMatch: 'full' }, // Página inicial
-  { path: '**', redirectTo: '/cadastro' } // Rota coringa
+  { path: '', redirectTo: 'login', pathMatch: 'full' }, // Página inicial como login
+  { path: '**', redirectTo: 'login' } // Rota coringa
 ];
 
 @NgModule({
