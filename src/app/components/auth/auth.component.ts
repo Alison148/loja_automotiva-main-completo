@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
@@ -6,17 +7,66 @@ import { Router } from '@angular/router';
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.css']
 })
-export class AuthComponent {
+export class AuthComponent implements OnInit {
+  authForm!: FormGroup;
+  loginMessage: string = '';
+  isRegister: boolean = false;
+  loggedIn: boolean = false;
+
   constructor(private router: Router) {}
 
-  login() {
-    // Simulando um login bem-sucedido
-    localStorage.setItem('loggedInUser', 'true');
-    this.router.navigate(['/dashboard']);
+  ngOnInit(): void {
+    this.authForm = new FormGroup({
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required, Validators.minLength(6)])
+    });
+
+    this.checkIfLoggedIn();
   }
 
-  logout() {
-    localStorage.removeItem('loggedInUser');
-    this.router.navigate(['/login']);
+  toggleMode(): void {
+    this.isRegister = !this.isRegister;
+    this.loginMessage = '';
+    this.authForm.reset();
+  }
+
+  onSubmit(): void {
+    if (this.authForm.valid) {
+      const email = this.authForm.value.email;
+
+      if (this.isRegister) {
+        // Simula registro de usuário
+        localStorage.setItem('registeredUser', JSON.stringify(this.authForm.value));
+        this.loginMessage = 'Usuário cadastrado com sucesso!';
+        this.isRegister = false;
+      } else {
+        // Simula login
+        const userData = localStorage.getItem('registeredUser');
+        if (userData) {
+          const user = JSON.parse(userData);
+          if (
+            user.email === this.authForm.value.email &&
+            user.password === this.authForm.value.password
+          ) {
+            localStorage.setItem('loggedInUser', email);
+            this.loginMessage = `Bem-vindo, ${email}!`;
+            this.loggedIn = true;
+            this.router.navigate(['/venda']); // ou '/dashboard'
+          } else {
+            this.loginMessage = 'Credenciais inválidas.';
+          }
+        } else {
+          this.loginMessage = 'Nenhum usuário cadastrado.';
+        }
+      }
+    }
+  }
+
+  checkIfLoggedIn(): void {
+    const user = localStorage.getItem('loggedInUser');
+    if (user) {
+      this.loggedIn = true;
+      this.loginMessage = `Bem-vindo de volta, ${user}!`;
+    }
   }
 }

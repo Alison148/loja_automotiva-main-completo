@@ -1,14 +1,27 @@
-<!-- auth.component.html -->
-<div class="auth-container">
-  <h2 *ngIf="isRegister">Cadastro</h2>
-  <h2 *ngIf="!isRegister">Login</h2>
+<div class="container mt-5" style="max-width: 400px;">
+  <h2 class="text-center">{{ isRegister ? 'Cadastro' : 'Login' }}</h2>
+
   <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
-    <input formControlName="email" placeholder="Email" />
-    <input formControlName="password" type="password" placeholder="Senha" />
-    <button type="submit">{{ isRegister ? 'Cadastrar' : 'Entrar' }}</button>
-    <p>{{ loginMessage }}</p>
-    <button type="button" (click)="toggleMode()">
-      {{ isRegister ? 'Já tem conta? Faça login' : 'Cadastre-se' }}
+    <div class="mb-3">
+      <label for="email" class="form-label">E-mail</label>
+      <input type="email" class="form-control" id="email" formControlName="email" required />
+    </div>
+
+    <div class="mb-3">
+      <label for="password" class="form-label">Senha</label>
+      <input type="password" class="form-control" id="password" formControlName="password" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100">
+      {{ isRegister ? 'Cadastrar' : 'Entrar' }}
     </button>
   </form>
+
+  <p class="text-center mt-3 text-success">{{ loginMessage }}</p>
+
+  <div class="text-center mt-2">
+    <button type="button" class="btn btn-link" (click)="toggleMode()">
+      {{ isRegister ? 'Já tem conta? Faça login' : 'Não tem conta? Cadastre-se' }}
+    </button>
+  </div>
 </div>

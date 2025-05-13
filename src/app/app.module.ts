@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // ✅ Adicionado ReactiveFormsModule
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // ✅ Importado aqui
 import { CommonModule } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -37,7 +37,7 @@ import { CupomModule } from './components/cupom-fiscal/cupom.module';
   imports: [
     BrowserModule,
     FormsModule,
-    ReactiveFormsModule, // ✅ Adicionado aqui
+    ReactiveFormsModule, // ✅ Importado aqui para usar formGroup, formControlName, etc.
     CommonModule,
     AppRoutingModule,
     CupomModule
