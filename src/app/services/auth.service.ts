@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 interface AuthCredentials {
   email: string;
@@ -18,7 +18,12 @@ export class AuthService {
   }
 
   login(credentials: AuthCredentials): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, credentials);
+    // return this.http.post(`${this.apiUrl}/login`, credentials);
+    const credencial ={
+  "token": "SEU_TOKEN_AQUI",
+  "email": "seu_email@exemplo.com"
+};
+return of(credencial)
   }
 
   saveSession(token: string, email: string): void {

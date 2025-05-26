@@ -5,7 +5,6 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-const authRoutes = require('./routes/authRoutes');
 const connectDB = require('./config/db');
 
 const app = express();
@@ -13,7 +12,20 @@ app.use(cors());
 app.use(express.json());
 
 connectDB();
-app.use('/api/auth', authRoutes);
+
+// Rota de login simplificada
+app.post('/api/auth/login', (req, res) => {
+  const { email, password } = req.body;
+
+  if (email && password) {
+    return res.json({
+      token: 'fake_token_123456',
+      email
+    });
+  } else {
+    return res.status(400).json({ message: 'Email e senha são obrigatórios' });
+  }
+});
 
 // Porta fixa
 app.listen(5000, () => {
