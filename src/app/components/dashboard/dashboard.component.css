@@ -1,5 +1,38 @@
+.dashboard-container {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.grafico-container {
+  width: 100%;
+  height: 400px;
+  position: relative;
+}
 
 canvas {
-    width: 100% !important;
-    height: auto !important;
-  }
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.btn-imprimir {
+  padding: 10px 20px;
+  margin-bottom: 15px;
+  font-size: 16px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-imprimir:hover {
+  background-color: #388e3c;
+}   
+.btn-imprimir:active {
+  background-color: #2e7d32;
+} 

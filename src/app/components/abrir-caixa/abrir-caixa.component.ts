@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-abrir-caixa',
@@ -11,7 +12,6 @@ export class AbrirCaixaComponent implements OnInit {
   fundoCaixa: number = 0;
 
   ngOnInit(): void {
-    // Se quiser carregar dados salvos anteriormente
     const fundoSalvo = localStorage.getItem('fundoCaixa');
     if (fundoSalvo) {
       this.fundoCaixa = parseFloat(fundoSalvo);
@@ -20,7 +20,12 @@ export class AbrirCaixaComponent implements OnInit {
 
   abrirCaixa(): void {
     if (!this.operador || this.fundoCaixa <= 0) {
-      alert('⚠️ Informe o operador e o fundo de caixa.');
+      Swal.fire({
+        icon: 'warning',
+        title: 'Campos obrigatórios!',
+        text: 'Informe o operador e o fundo de caixa.',
+        confirmButtonText: 'OK'
+      });
       return;
     }
 
@@ -34,6 +39,14 @@ export class AbrirCaixaComponent implements OnInit {
     localStorage.setItem('caixaAberto', 'true');
     localStorage.setItem('dadosCaixa', JSON.stringify(dados));
 
-    alert(`✅ Caixa aberto com sucesso!\nOperador: ${this.operador}\nFundo: R$ ${this.fundoCaixa.toFixed(2)}`);
+    Swal.fire({
+      icon: 'success',
+      title: 'Caixa aberto com sucesso!',
+      html: `
+        <p><strong>Operador:</strong> ${this.operador}</p>
+        <p><strong>Fundo:</strong> R$ ${this.fundoCaixa.toFixed(2)}</p>
+      `,
+      confirmButtonText: 'OK'
+    });
   }
 }

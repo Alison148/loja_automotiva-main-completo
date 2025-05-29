@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-auth',
@@ -9,32 +9,36 @@ import { Router } from '@angular/router';
   styleUrls: ['./auth.component.css']
 })
 export class AuthComponent implements OnInit {
-  authForm!: FormGroup;
+  loginForm!: FormGroup;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private fb: FormBuilder, private router: Router) {}
 
   ngOnInit(): void {
-    this.authForm = new FormGroup({
-      email: new FormControl('', [Validators.required]),
-      password: new FormControl('', [Validators.required])
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      senha: ['', Validators.required]
     });
   }
 
-  onSubmit(): void {
-    if (this.authForm.valid) {
-      this.authService.login(this.authForm.value).subscribe({
-        next: (res) => {
-          this.authService.saveSession(res.token, res.email);
-          this.router.navigate(['/venda']);
-        },
-        error: (err) => {
-          alert('Login inválido');
-        }
-      });
+  login(): void {
+    if (this.loginForm.invalid) {
+      Swal.fire('Erro', 'Preencha os campos corretamente.', 'error');
+      return;
     }
-  }
 
-  cancel(): void {
-    this.authForm.reset();
+    const { email, senha } = this.loginForm.value;
+
+    // Simulação de login
+    if (email === 'admin@teste.com' && senha === '123456') {
+      // 1. Salvar login no localStorage
+      localStorage.setItem('usuarioLogado', 'true');
+
+      // 2. Redirecionar para uma rota protegida
+      Swal.fire('Sucesso', 'Login efetuado com sucesso!', 'success').then(() => {
+        this.router.navigate(['/dashboard']);
+      });
+    } else {
+      Swal.fire('Falha', 'Usuário ou senha inválidos.', 'error');
+    }
   }
 }

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-vendas',
   templateUrl: './venda.component.html'
-  
 })
 export class VendaComponent implements OnInit {
   pecasDisponiveis: any[] = [];
@@ -15,9 +16,10 @@ export class VendaComponent implements OnInit {
   parcelas: number = 1;
   valorParcela: number = 0;
 
-  // Variáveis para recarga
   numeroRecarga: string = '';
   valorRecarga: number = 0;
+
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
     this.carregarPecas();
@@ -36,7 +38,12 @@ export class VendaComponent implements OnInit {
 
   vender(peca: any): void {
     if (!this.caixaAberto) {
-      alert('❌ Você precisa abrir o caixa antes de vender!');
+      Swal.fire({
+        icon: 'warning',
+        title: 'Caixa Fechado',
+        text: '❌ Você precisa abrir o caixa antes de vender!',
+        confirmButtonText: 'OK'
+      });
       return;
     }
 
@@ -67,7 +74,12 @@ export class VendaComponent implements OnInit {
 
       this.mostrarToast(`✅ Venda de ${quantidade} unidade(s) realizada!`);
     } else {
-      alert('❌ Estoque insuficiente!');
+      Swal.fire({
+        icon: 'error',
+        title: 'Estoque insuficiente!',
+        text: '❌ Não há quantidade suficiente no estoque para esta venda.',
+        confirmButtonText: 'OK'
+      });
     }
   }
 
@@ -109,15 +121,24 @@ export class VendaComponent implements OnInit {
     }, 3000);
   }
 
-  // ✅ NOVO MÉTODO: Salvar recarga de celular
   salvarRecarga(numero: string, valor: number): void {
     if (!this.caixaAberto) {
-      alert('❌ Você precisa abrir o caixa antes de registrar uma recarga!');
+      Swal.fire({
+        icon: 'warning',
+        title: 'Caixa Fechado',
+        text: '❌ Você precisa abrir o caixa antes de registrar uma recarga!',
+        confirmButtonText: 'OK'
+      });
       return;
     }
 
     if (!numero || valor <= 0) {
-      alert('❌ Informe um número válido e um valor maior que zero!');
+      Swal.fire({
+        icon: 'error',
+        title: 'Dados inválidos',
+        text: '❌ Informe um número válido e um valor maior que zero!',
+        confirmButtonText: 'OK'
+      });
       return;
     }
 
@@ -137,8 +158,12 @@ export class VendaComponent implements OnInit {
 
     this.mostrarToast(`✅ Recarga de ${valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} para ${numero} registrada!`);
 
-    
     this.numeroRecarga = '';
     this.valorRecarga = 0;
+  }
+
+  logout(): void {
+    localStorage.removeItem('usuarioLogado');
+    this.router.navigate(['/']);
   }
 }

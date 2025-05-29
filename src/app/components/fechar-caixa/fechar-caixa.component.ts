@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-fechar-caixa',
@@ -34,26 +35,44 @@ export class FecharCaixaComponent implements OnInit {
   }
 
   fecharCaixa(): void {
-    if (confirm('Deseja realmente fechar o caixa?')) {
-      const hoje = new Date().toDateString();
-      const finalizadas = JSON.parse(localStorage.getItem('vendasFinalizadas') || '[]');
+    Swal.fire({
+      title: 'Deseja realmente fechar o caixa?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'OK',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const hoje = new Date().toDateString();
+        const finalizadas = JSON.parse(localStorage.getItem('vendasFinalizadas') || '[]');
 
-      const vendasHoje = this.vendas.filter((v: any) =>
-        new Date(v.data).toDateString() === hoje
-      );
+        const vendasHoje = this.vendas.filter((v: any) =>
+          new Date(v.data).toDateString() === hoje
+        );
 
-      const vendasRestantes = this.vendas.filter((v: any) =>
-        new Date(v.data).toDateString() !== hoje
-      );
+        const vendasRestantes = this.vendas.filter((v: any) =>
+          new Date(v.data).toDateString() !== hoje
+        );
 
-      localStorage.setItem('vendasFinalizadas', JSON.stringify([...finalizadas, ...vendasHoje]));
-      localStorage.setItem('vendasRealizadas', JSON.stringify(vendasRestantes));
+        localStorage.setItem('vendasFinalizadas', JSON.stringify([...finalizadas, ...vendasHoje]));
+        localStorage.setItem('vendasRealizadas', JSON.stringify(vendasRestantes));
 
-      alert(`✅ Caixa fechado por ${this.operador} . Vendas do dia foram finalizadas.`);
-    }
+        Swal.fire(
+          'Caixa fechado!',
+          `✅ Caixa fechado por ${this.operador}. Vendas do dia foram finalizadas.`,
+          'success'
+        ).then(() => {
+          location.reload(); // Atualiza a página automaticamente
+        });
+      }
+    });
   }
 
   salvarOperador(): void {
-    alert(`🧑‍💼 Operador ${this.operador}  salvo com sucesso!`);
+    Swal.fire({
+      icon: 'success',
+      title: 'Operador salvo',
+      text: `🧑‍💼 Operador ${this.operador} salvo com sucesso!`
+    });
   }
 }

@@ -18,12 +18,8 @@ export class AuthService {
   }
 
   login(credentials: AuthCredentials): Observable<any> {
-    // return this.http.post(`${this.apiUrl}/login`, credentials);
-    const credencial ={
-  "token": "SEU_TOKEN_AQUI",
-  "email": "seu_email@exemplo.com"
-};
-return of(credencial)
+     return this.http.post(`${this.apiUrl}/login`, credentials);
+    
   }
 
   saveSession(token: string, email: string): void {
