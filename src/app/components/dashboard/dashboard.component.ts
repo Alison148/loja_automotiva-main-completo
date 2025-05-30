@@ -9,14 +9,10 @@ import html2canvas from 'html2canvas';
 })
 export class DashboardComponent implements OnInit, AfterViewInit {
   @ViewChild('graficoVendasProduto', { static: true }) canvasVendas!: ElementRef<HTMLCanvasElement>;
-  @ViewChild('graficoVendasMes', { static: true }) canvasVendasMes!: ElementRef<HTMLCanvasElement>;
   @ViewChild('dashboardContainer', { static: false }) dashboardContainer!: ElementRef;
 
   vendas: any[] = [];
   private chartProduto: any;
-  private chartMes: any;
-
-  mesComMaisVendas: string = '';
 
   ngOnInit(): void {
     const dados = localStorage.getItem('vendasRealizadas');
@@ -25,7 +21,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.createProductSalesChart();
-    this.createMonthlySalesChart();
   }
 
   private createProductSalesChart(): void {
@@ -65,40 +60,20 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     });
   }
 
-  private createMonthlySalesChart(): void {
-    const agrupadoPorMes: { [mes: string]: number } = {};
-
-    this.vendas.forEach(venda => {
-      const data = new Date(venda.data);
-      const mes = data.toLocaleString('default', { month: 'long' });
-      if (!agrupadoPorMes[mes]) {
-        agrupadoPorMes[mes] = 0;
-      }
-      agrupadoPorMes[mes] += venda.total;
-    });
-
-    const meses = Object.keys(agrupadoPorMes);
-    const totais = Object.values(agrupadoPorMes);
-
-    new Chart(this.chartMes.nativeElement, {
-      type: 'line',
-      data: {
-        labels: meses,
-        datasets: [{
-          label: 'Total Vendido por Mês (R$)',
-          data: totais,
-          fill: false,
-          borderColor: 'green',
-          tension: 0.3
-        }]
-      },
-      options: {
-        responsive: true
-      }
-    });
-  }
-
   imprimirDashboard(): void {
-    window.print();
+    const container = this.dashboardContainer.nativeElement;
+
+    html2canvas(container).then(canvas => {
+      const printWindow = window.open('', '_blank')!;
+      printWindow.document.write('<html><head><title>Dashboard</title></head><body>');
+      printWindow.document.body.appendChild(canvas);
+      printWindow.document.write('</body></html>');
+      printWindow.document.close();
+      printWindow.focus();
+      setTimeout(() => {
+        printWindow.print();
+        printWindow.close();
+      }, 1000);
+    });
   }
 }
