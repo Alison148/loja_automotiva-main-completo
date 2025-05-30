@@ -1,16 +1,9 @@
-<!-- Certifique-se de incluir o Font Awesome no index.html do projeto -->
-
 <div #dashboardContainer class="container mt-4">
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <h2>📊 Dashboard de Vendas</h2>
-    <button class="btn btn-primary" (click)="imprimirDashboard()">
-      <i class="fas fa-print me-2"></i> Imprimir Dashboard
-    </button>
+  <h2 class="text-center mb-4">📊 Dashboard de Vendas</h2>
+
+  <div class="d-flex justify-content-center gap-3 mb-3">
+    <button class="btn btn-primary" (click)="createProductSalesChart()">Gráfico Simples</button>
+    <button class="btn btn-success" (click)="imprimirDashboard()">🖨️ Imprimir</button>
   </div>
-  <div class="row">
-    <div class="col-12 mb-4">
-      <h5 class="text-center">📦 Vendas por Produto</h5>
-      <canvas #graficoVendasProduto></canvas>
-    </div>
-  </div>
+  <canvas #graficoVendasProduto></canvas>
 </div>

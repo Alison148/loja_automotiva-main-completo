@@ -20,10 +20,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.createProductSalesChart();
+    this.createProductSalesChart(); // Começa com o gráfico simples
   }
 
-  private createProductSalesChart(): void {
+  createProductSalesChart(): void {
     if (this.chartProduto) this.chartProduto.destroy();
 
     const vendasPorProduto: Record<string, number> = {};
@@ -55,17 +55,63 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         responsive: true,
         plugins: {
           legend: { display: false }
+        },
+        scales: {
+          y: { beginAtZero: true }
+        }
+      }
+    });
+  }
+
+  createProductChartFromItens(): void {
+    if (this.chartProduto) this.chartProduto.destroy();
+
+    const ctx = this.canvasVendas.nativeElement.getContext('2d');
+    const vendasPorProduto = this.vendas.reduce((acc: any, venda: any) => {
+      if (venda.itens && Array.isArray(venda.itens)) {
+        venda.itens.forEach((item: any) => {
+          acc[item.nome] = (acc[item.nome] || 0) + item.subtotal;
+        });
+      }
+      return acc;
+    }, {});
+
+    const nomes = Object.keys(vendasPorProduto);
+    const totais = Object.values(vendasPorProduto);
+
+    const cores = nomes.map((_, i) => {
+      if (i === 1) return '#ff4d4f'; // vermelho
+      if (i === nomes.length - 1) return '#52c41a'; // verde
+      return '#1890ff'; // azul
+    });
+
+    this.chartProduto = new Chart(ctx!, {
+      type: 'bar',
+      data: {
+        labels: nomes,
+        datasets: [{
+          label: 'Vendas por Produto (Itens)',
+          data: totais,
+          backgroundColor: cores,
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: true }
+        },
+        scales: {
+          y: { beginAtZero: true }
         }
       }
     });
   }
 
   imprimirDashboard(): void {
-    const container = this.dashboardContainer.nativeElement;
-
-    html2canvas(container).then(canvas => {
-      const printWindow = window.open('', '_blank')!;
-      printWindow.document.write('<html><head><title>Dashboard</title></head><body>');
+    html2canvas(this.dashboardContainer.nativeElement).then(canvas => {
+      const printWindow = window.open('', '_blank');
+      if (!printWindow) return;
+      printWindow.document.write('<html><head><title>Impressão Dashboard</title></head><body>');
       printWindow.document.body.appendChild(canvas);
       printWindow.document.write('</body></html>');
       printWindow.document.close();
