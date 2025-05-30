@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import Chart from 'chart.js/auto';
 import html2canvas from 'html2canvas';
 
@@ -51,119 +51,54 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       data: {
         labels,
         datasets: [{
-          label: 'Quantidade Vendida por Produto',
-          data: quantidades,
-          backgroundColor: 'rgba(54, 162, 235, 0.6)',
-          borderColor: 'rgba(54, 162, 235, 1)',
-          borderWidth: 1
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          y: {
-            beginAtZero: true,
-            ticks: {
-              callback: (value) => `R$ ${value}`
-            }
-          }
-        },
-        plugins: {
-          title: {
-            display: true,
-            text: 'Vendas por Produto'
-          }
-        }
-      }
-    });
-  }
-
-  private createMonthlySalesChart(): void {
-    if (this.chartMes) this.chartMes.destroy();
-
-    const vendasPorMes: Record<string, number> = {};
-    for (const v of this.vendas) {
-      const data = new Date(v.data);
-      const chaveMes = `${data.getFullYear()}-${String(data.getMonth() + 1).padStart(2, '0')}`;
-      vendasPorMes[chaveMes] = (vendasPorMes[chaveMes] || 0) + v.valor;
-    }
-
-    const labels = Object.keys(vendasPorMes);
-    const data = Object.values(vendasPorMes);
-    const max = Math.max(...data);
-    const min = Math.min(...data);
-    const backgroundColors = data.map(v =>
-      v === max ? '#4caf50' : v === min ? '#f44336' : '#2196f3'
-    );
-
-    const indexMax = data.indexOf(max);
-    this.mesComMaisVendas = labels[indexMax];
-
-    const ctx = this.canvasVendasMes.nativeElement.getContext('2d')!;
-    this.chartMes = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels,
-        datasets: [{
-          label: 'Vendas por Mês (R$)',
+          label: 'Vendas por Produto (R$)',
           data,
           backgroundColor: backgroundColors
         }]
       },
       options: {
         responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          y: {
-            beginAtZero: true,
-            ticks: {
-              callback: (value) => `R$ ${value}`
-            }
-          }
-        },
         plugins: {
-          title: {
-            display: true,
-            text: 'Vendas por Mês'
-          }
+          legend: { display: false }
         }
       }
     });
   }
 
-  imprimir(): void {
-    const element = this.dashboardContainer.nativeElement;
+  private createMonthlySalesChart(): void {
+    const agrupadoPorMes: { [mes: string]: number } = {};
 
-    html2canvas(element).then(canvas => {
-      const imgData = canvas.toDataURL('image/png');
+    this.vendas.forEach(venda => {
+      const data = new Date(venda.data);
+      const mes = data.toLocaleString('default', { month: 'long' });
+      if (!agrupadoPorMes[mes]) {
+        agrupadoPorMes[mes] = 0;
+      }
+      agrupadoPorMes[mes] += venda.total;
+    });
 
-      const janela = window.open('', '_blank');
-      if (janela) {
-        janela.document.write(`
-          <html>
-            <head>
-              <title>Imprimir Dashboard</title>
-              <style>
-                body { text-align: center; font-family: sans-serif; margin: 0; padding: 20px; }
-                img { max-width: 100%; height: auto; }
-              </style>
-            </head>
-            <body>
-              <h2>Dashboard de Vendas</h2>
-              <img src="${imgData}" />
-              <script>
-                window.onload = function() {
-                  window.focus();
-                  window.print();
-                  window.close();
-                };
-              </script>
-            </body>
-          </html>
-        `);
-        janela.document.close();
+    const meses = Object.keys(agrupadoPorMes);
+    const totais = Object.values(agrupadoPorMes);
+
+    new Chart(this.chartMes.nativeElement, {
+      type: 'line',
+      data: {
+        labels: meses,
+        datasets: [{
+          label: 'Total Vendido por Mês (R$)',
+          data: totais,
+          fill: false,
+          borderColor: 'green',
+          tension: 0.3
+        }]
+      },
+      options: {
+        responsive: true
       }
     });
+  }
+
+  imprimirDashboard(): void {
+    window.print();
   }
 }

@@ -1,20 +1,26 @@
+<div class="container mt-4">
+  <h2 class="text-center mb-4">📊 Dashboard de Vendas</h2>
 
-<h2>Dashboard de Vendas</h2>
+  <!-- Gráfico de Vendas por Produto -->
+  <div class="card mb-4 shadow">
+    <div class="card-body">
+      <h5 class="card-title text-center">Vendas por Produto</h5>
+      <canvas #graficoProdutos width="400" height="200"></canvas>
+    </div>
+  </div>
 
-<!-- Gráfico por Produto -->
-<div style="height: 300px;">
-  <canvas #graficoVendasProduto></canvas>
+  <!-- Gráfico de Vendas por Mês -->
+  <div class="card mb-4 shadow">
+    <div class="card-body">
+      <h5 class="card-title text-center">Vendas por Mês</h5>
+      <canvas #graficoMeses width="400" height="200"></canvas>
+    </div>
+  </div>
+
+  <!-- Botão de Impressão -->
+  <div class="text-center mt-4 mb-5 no-print">
+    <button class="btn btn-primary btn-lg" (click)="imprimirDashboard()">
+      🖨️ Imprimir Relatório
+    </button>
+  </div>
 </div>
-
-<!-- Gráfico por Mês -->
-<div style="height: 300px; margin-top: 30px;">
-  <canvas #graficoVendasMes></canvas>
-</div>
-
-<!-- Informativo -->  
-<div style="margin-top: 20px; font-weight: bold;">
-  📊 Mês com mais vendas: {{ mesComMaisVendas }}
-</div>
-
-<!-- Botão -->
-<button (click)="imprimir()">🖨️ Imprimir Gráfico de Produtos</button>

@@ -21,3 +21,5 @@ describe('DashboardComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+//         plugins: {
+//           legend: { display: true },
