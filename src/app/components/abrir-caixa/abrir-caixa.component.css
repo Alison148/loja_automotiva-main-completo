@@ -1,0 +1,50 @@
+.container-abrir-caixa {
+  max-width: 500px;
+  margin: 50px auto;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+}
+
+.container-abrir-caixa h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+.form-group label {
+  font-weight: 500;  
+  margin-bottom: 5px;
+  color: #34495e;
+}
+
+.form-control {
+  border-radius: 8px;
+  padding: 10px;
+  border: 1px solid #ced4da;
+  font-size: 16px;
+}
+
+.btn-abrir-caixa {
+  width: 100%;
+  padding: 12px;
+  margin-top: 20px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  background-color: #27ae60;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.btn-abrir-caixa:hover {
+  background-color: #219150;
+  cursor: pointer;
+}
+
+.alerta {
+  margin-top: 15px;
+  text-align: center;
+}

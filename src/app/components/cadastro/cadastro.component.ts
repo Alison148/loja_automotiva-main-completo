@@ -24,7 +24,6 @@ export class CadastroComponent {
   }
 
   cadastrar(): void {
-    // Validação
     if (!this.novaPeca.nome || !this.precoFormatado || this.novaPeca.estoque < 1) {
       Swal.fire({
         title: 'Atenção!',
