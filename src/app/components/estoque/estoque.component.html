@@ -1,49 +1,58 @@
-<div class="container mt-4">
-  <div class="card p-4 shadow">
-    <h3 class="text-center">📦 Peças com Estoque</h3>
-    <table class="table table-bordered table-striped mt-3">
-      <thead>
-        <tr>
-          <th>Nome</th>
-          <th>Estoque</th>
-          <th>Adicionar</th>
-          <th>Ações</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let p of pecasComEstoque; let i = index">
-          <td>{{ p.nome }}</td>
-          <td>{{ p.estoque }}</td>
-          <td>
-            <input type="number" [(ngModel)]="novaQuantidade[p.nome]" class="form-control" min="1">
-            <button class="btn btn-success btn-sm mt-1" (click)="adicionarQuantidade(i)">Adicionar</button>
-          </td>
-          <td>
-            <button class="btn btn-danger btn-sm" (click)="venderItem(i)">Vender (-1)</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+<div class="container mt-5">
+  <div class="card shadow p-4">
+    <h2 class="text-center mb-4 text-primary fw-bold">📦 Gerenciar Estoque de Peças</h2>
 
-    <hr>
+    <!-- Seção: Peças com Estoque -->
+    <h4 class="mb-3 text-success">✅ Peças com Estoque</h4>
+    <div class="table-responsive mb-5">
+      <table class="table table-bordered table-striped align-middle text-center">
+        <thead class="table-dark">
+          <tr>
+            <th>🧾 Nome</th>
+            <th>📦 Estoque</th>
+            <th>➕ Adicionar Quantidade</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let p of pecasComEstoque; let i = index">
+            <td>{{ p.nome }}</td>
+            <td>{{ p.estoque }}</td>
+            <td>
+              <div class="d-flex gap-2 justify-content-center">
+                <input type="number" [(ngModel)]="novaQuantidade[p.nome]" class="form-control w-50" min="1" placeholder="Qtd" />
+                <button class="btn btn-success btn-sm" (click)="adicionarQuantidade(i)">
+                  <i class="fas fa-plus-circle"></i> Adicionar
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-    <h4>🔻 Itens com estoque zerado</h4>
-    <table class="table table-bordered table-sm">
-      <thead>
-        <tr>
-          <th>Nome</th>
-          <th>Adicionar Estoque</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let p of pecasZeradas; let i = index">
-          <td>{{ p.nome }}</td>
-          <td>
-            <input type="number" [(ngModel)]="novaQuantidade[p.nome]" class="form-control" min="1">
-            <button class="btn btn-primary btn-sm mt-1" (click)="adicionarQuantidade(i)">Repor</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+
+
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped align-middle text-center">
+        <thead class="table-secondary">
+          <tr>
+        
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let p of pecasZeradas; let i = index">
+            <td>{{ p.nome }}</td>
+            <td>
+              <div class="d-flex gap-2 justify-content-center">
+                <input type="number" [(ngModel)]="novaQuantidade[p.nome]" class="form-control w-50" min="1" placeholder="Qtd" />
+                <button class="btn btn-primary btn-sm" (click)="adicionarQuantidade(i)">
+                  <i class="fas fa-box-open"></i> Repor
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>

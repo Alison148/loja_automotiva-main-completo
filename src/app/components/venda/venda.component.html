@@ -1,51 +1,61 @@
 <div class="container mt-5 pt-5">
-  <h2 class="text-center mb-4">💸 Realizar Venda</h2>
+  <h2 class="text-center mb-4 text-success fw-bold">
+    💸 Realizar Venda
+  </h2>
 
-  <div *ngIf="!caixaAberto" class="alert alert-danger text-center">
-    ⚠️ Abra o caixa para realizar vendas!
+  <div *ngIf="!caixaAberto" class="alert alert-danger text-center fw-bold">
+    ⚠️ É necessário abrir o caixa para realizar vendas!
   </div>
 
-  <div class="row">
-    <div class="col-md-4 mb-3" *ngFor="let peca of pecasDisponiveis">
-      <div class="card h-100 shadow">
-        <div class="card-body">
-          <h5 class="card-title">{{ peca.nome }}</h5>
-          <p class="card-text">
-            <strong>Preço:</strong> {{ peca.preco | currency:'BRL' }}<br>
-            <strong>Estoque:</strong> {{ peca.estoque }}
-          </p>
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+    <div class="col" *ngFor="let peca of pecasDisponiveis">
+      <div class="card h-100 shadow-sm border-0">
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title text-primary fw-semibold">
+            🧾 {{ peca.nome }}
+          </h5>
 
-          <div class="mb-2">
-            <label>Quantidade:</label>
-            <input type="number" class="form-control" [(ngModel)]="quantidadeSelecionada[peca.nome]" [min]="1" [max]="peca.estoque" />
+          <ul class="list-unstyled mb-3">
+            <li><strong>💰 Preço:</strong> {{ peca.preco | currency:'BRL' }}</li>
+            <li><strong>📦 Estoque:</strong> {{ peca.estoque }}</li>
+          </ul>
+
+          <div class="mb-3">
+            <label for="quantidade-{{ peca.nome }}" class="form-label fw-semibold">
+              🔢 Quantidade
+            </label>
+            <input
+              id="quantidade-{{ peca.nome }}"
+              type="number"
+              class="form-control"
+              [(ngModel)]="quantidadeSelecionada[peca.nome]"
+              [min]="1"
+              [max]="peca.estoque"
+              [disabled]="!caixaAberto || peca.estoque === 0"
+              placeholder="Digite a quantidade"
+              [ngClass]="{
+                'is-invalid': quantidadeSelecionada[peca.nome] > peca.estoque,
+                'is-valid': quantidadeSelecionada[peca.nome] > 0 && quantidadeSelecionada[peca.nome] <= peca.estoque
+              }"
+            />
+            <div class="invalid-feedback">
+              Quantidade excede o estoque disponível.
+            </div>
           </div>
 
-          <button class="btn btn-primary w-100 mt-2" (click)="vender(peca)">
-            🛒 Vender
+          <button
+            class="btn btn-success mt-auto d-flex justify-content-center align-items-center gap-2"
+            (click)="vender(peca)"
+            [disabled]="
+              !caixaAberto || 
+              !quantidadeSelecionada[peca.nome] || 
+              quantidadeSelecionada[peca.nome] > peca.estoque
+            "
+          >
+            <i class="fas fa-cart-plus"></i> Vender
           </button>
         </div>
       </div>
     </div>
-  </div>
-</div>
-
-<!-- 📱 Recarga de Celular -->
-<div class="container mt-5">
-  <h4 class="text-center mb-4">📱 Registrar Recarga de Celular</h4>
-
-  <div class="card p-4 shadow">
-    <div class="mb-3">
-      <label class="form-label">Número do Celular:</label>
-      <input type="text" [(ngModel)]="numeroRecarga" class="form-control" placeholder="Ex: (11) 91234-5678">
-    </div>
-
-    <div class="mb-3">
-      <label class="form-label">Valor da Recarga:</label>
-      <input type="number" [(ngModel)]="valorRecarga" class="form-control" placeholder="Ex: 20">
-    </div>
-
-    <button class="btn btn-success w-100" (click)="salvarRecarga(numeroRecarga, valorRecarga)">
-      💾 Registrar Recarga
-    </button>
   </div>
 </div>

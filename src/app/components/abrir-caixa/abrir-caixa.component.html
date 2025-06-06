@@ -1,25 +1,29 @@
 <div class="container mt-5">
-  <div class="card shadow p-4">
-    <h2 class="text-center">🔓 Abrir Caixa</h2>
+  <div class="card shadow-lg p-5 border-0 rounded-4">
+    <h2 class="text-center mb-4 text-success fw-bold">
+      🔓 Abrir Caixa
+    </h2>
 
-    <form (ngSubmit)="abrirCaixa()" class="mt-4">
-      <div class="mb-3">
-        <label class="form-label">👤 Nome do Operador:</label>
-        <input type="text" class="form-control" [(ngModel)]="operador" name="operador" required />
+    <form (ngSubmit)="abrirCaixa()" class="row g-3">
+      <div class="col-md-12">
+        <label class="form-label fw-semibold">👤 Nome do Operador:</label>
+        <input type="text" class="form-control form-control-lg" [(ngModel)]="operador" name="operador" required placeholder="Digite o nome do operador" />
       </div>
 
-      <div class="mb-3">
-        <label class="form-label">🧾 Número do Caixa:</label>
-        <input type="number" class="form-control" [(ngModel)]="numeroCaixa" name="numeroCaixa" required />
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">🧾 Número do Caixa:</label>
+        <input type="number" class="form-control form-control-lg" [(ngModel)]="numeroCaixa" name="numeroCaixa" required placeholder="Ex: 1" />
       </div>
 
-      <div class="mb-3">
-        <label class="form-label">💰 Fundo de Caixa (R$):</label>
-        <input type="number" class="form-control" [(ngModel)]="fundoCaixa" name="fundoCaixa" required min="0.01" step="0.01" />
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">💰 Fundo de Caixa (R$):</label>
+        <input type="number" class="form-control form-control-lg" [(ngModel)]="fundoCaixa" name="fundoCaixa" required min="0.01" step="0.01" placeholder="Ex: 100.00" />
       </div>
 
-      <div class="d-grid gap-2">
-        <button class="btn btn-success" type="submit">✅ Abrir Caixa</button>
+      <div class="col-12 d-grid mt-4">
+        <button class="btn btn-success btn-lg fw-bold" type="submit">
+          ✅ Confirmar Abertura do Caixa
+        </button>
       </div>
     </form>
   </div>

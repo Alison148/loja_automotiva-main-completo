@@ -1,9 +1,19 @@
-<div #dashboardContainer class="container mt-4">
-  <h2 class="text-center mb-4">📊 Dashboard de Vendas</h2>
+<div #dashboardContainer class="container mt-5">
+  <div class="card shadow p-4">
+    <h2 class="text-center mb-4">📊 <strong>Dashboard de Vendas</strong></h2>
 
-  <div class="d-flex justify-content-center gap-3 mb-3">
-    <button class="btn btn-primary" (click)="createProductSalesChart()">Gráfico Simples</button>
-    <button class="btn btn-success" (click)="imprimirDashboard()">🖨️ Imprimir</button>
+    <div class="d-flex justify-content-center flex-wrap gap-3 mb-4">
+<button class="btn btn-outline-primary d-flex align-items-center gap-2" (click)="createProductSalesChart()">
+  <i class="fas fa-bar-chart"></i> Gráfico Valor Total
+</button>
+
+<button class="btn btn-outline-success d-flex align-items-center gap-2" (click)="imprimirDashboard()">
+  <i class="fas fa-print"></i> Imprimir
+</button>
+    </div>
+
+    <div class="text-center">
+      <canvas #graficoVendasProduto style="max-height: 400px;"></canvas>
+    </div>
   </div>
-  <canvas #graficoVendasProduto></canvas>
 </div>

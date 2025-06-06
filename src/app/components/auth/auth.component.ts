@@ -11,7 +11,10 @@ import Swal from 'sweetalert2';
 export class AuthComponent implements OnInit {
   loginForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private router: Router) {}
+  constructor(
+    private fb: FormBuilder,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -22,23 +25,43 @@ export class AuthComponent implements OnInit {
 
   login(): void {
     if (this.loginForm.invalid) {
-      Swal.fire('Erro', 'Preencha os campos corretamente.', 'error');
+      this.marcarCamposComoTocados();
+      Swal.fire({
+        icon: 'error',
+        title: 'Erro',
+        text: 'Preencha todos os campos corretamente.'
+      });
       return;
     }
 
     const { email, senha } = this.loginForm.value;
 
-    // Simulação de login
+    // Simulação de autenticação
     if (email === 'admin@teste.com' && senha === '123456') {
-      // 1. Salvar login no localStorage
       localStorage.setItem('usuarioLogado', 'true');
 
-      // 2. Redirecionar para uma rota protegida
-      Swal.fire('Sucesso', 'Login efetuado com sucesso!', 'success').then(() => {
+      Swal.fire({
+        icon: 'success',
+        title: 'Login realizado',
+        text: 'Bem-vindo!',
+        timer: 2000,
+        showConfirmButton: false
+      }).then(() => {
         this.router.navigate(['/dashboard']);
       });
+
     } else {
-      Swal.fire('Falha', 'Usuário ou senha inválidos.', 'error');
+      Swal.fire({
+        icon: 'error',
+        title: 'Falha ao entrar',
+        text: 'E-mail ou senha inválidos.'
+      });
     }
+  }
+
+  private marcarCamposComoTocados(): void {
+    Object.values(this.loginForm.controls).forEach(control => {
+      control.markAsTouched();
+    });
   }
 }

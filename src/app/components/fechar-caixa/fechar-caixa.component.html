@@ -1,31 +1,39 @@
 <div class="container mt-5 pt-5">
-  <div class="card shadow p-4 text-center">
-    <h2>🏁 Fechar Caixa</h2>
+  <div class="card shadow-lg p-5 text-center border-0">
+    <h2 class="mb-4 text-uppercase fw-bold">🏁 Fechamento de Caixa</h2>
 
-    <p class="mt-4 fs-4">
-      💵 Total Vendido Hoje:
-      <strong>{{ totalVendidoHoje | currency:'BRL' }}</strong>
-    </p>
+    <div class="mb-4">
+      <p class="fs-5 mb-1">💵 <strong>Total Vendido Hoje</strong></p>
+      <h4 class="text-success fw-bold">{{ totalVendidoHoje | currency:'BRL' }}</h4>
+    </div>
 
-    <p class="fs-4">
-      📦 Total de Itens Vendidos:
-      <strong>{{ totalItensVendidosHoje }}</strong>
-    </p>
+    <div class="mb-4">
+      <p class="fs-5 mb-1">📦 <strong>Total de Itens Vendidos</strong></p>
+      <h4 class="text-primary fw-bold">{{ totalItensVendidosHoje }}</h4>
+    </div>
 
-    <form (submit)="salvarOperador()" class="row justify-content-center mt-4 g-2">
-      <div class="col-md-4">
-        <input [(ngModel)]="operador" name="operador" type="text" class="form-control"
-          placeholder="Nome do Operador" required />
+    <form (submit)="salvarOperador()" class="row justify-content-center align-items-center g-3">
+      <div class="col-md-5">
+        <input
+          [(ngModel)]="operador"
+          name="operador"
+          type="text"
+          class="form-control form-control-lg"
+          placeholder="Digite o nome do operador"
+          required
+        />
       </div>
-      <div class="col-md-2">
-        <button class="btn btn-primary w-100" type="submit">
+      <div class="col-md-3">
+        <button class="btn btn-success btn-lg w-100" type="submit">
           💾 Salvar Operador
         </button>
       </div>
     </form>
 
-    <button class="btn btn-danger mt-4 w-100" (click)="fecharCaixa()">
-      🚫 Fechar Caixa
-    </button>
+    <div class="mt-5">
+      <button class="btn btn-danger btn-lg w-100" (click)="fecharCaixa()">
+        🚫 Fechar Caixa Agora
+      </button>
+    </div>
   </div>
 </div>

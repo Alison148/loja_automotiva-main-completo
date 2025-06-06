@@ -1,51 +1,43 @@
-<div class="d-flex justify-content-center align-items-center min-vh-100 bg-light">
-  <div class="card shadow-lg p-4" style="width: 100%; max-width: 400px; border-radius: 1rem;">
-    <div class="text-center mb-4">
-      <h3 class="fw-bold">PDV Loja Automotiva
- </h3>
-      <p class="text-muted">Faça login para continuar</p>
-    </div>
+<div class="container d-flex align-items-center justify-content-center vh-100">
+  <div class="card shadow p-4" style="max-width: 400px; width: 100%;">
+    <h2 class="text-center mb-4 text-primary fw-bold">
+      🔐 Acessar a Loja
+    </h2>
 
-    <form (ngSubmit)="login()" [formGroup]="loginForm">
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
       <div class="mb-3">
-        <label for="email" class="form-label">E-mail</label>
+        <label for="email" class="form-label fw-semibold">📧 E-mail</label>
         <input
           type="email"
           id="email"
+          class="form-control"
           formControlName="email"
-          class="form-control form-control-lg"
-          placeholder="seu@email.com"
+          [ngClass]="{ 'is-invalid': loginForm.get('email')?.touched && loginForm.get('email')?.invalid }"
+          placeholder="Digite seu e-mail"
         />
-        <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="text-danger small">
-          E-mail inválido
+        <div class="invalid-feedback" *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
+          E-mail inválido.
         </div>
       </div>
 
       <div class="mb-3">
-        <label for="senha" class="form-label">Senha</label>
+        <label for="senha" class="form-label fw-semibold">🔒 Senha</label>
         <input
           type="password"
           id="senha"
+          class="form-control"
           formControlName="senha"
-          class="form-control form-control-lg"
+          [ngClass]="{ 'is-invalid': loginForm.get('senha')?.touched && loginForm.get('senha')?.invalid }"
           placeholder="Digite sua senha"
         />
-        <div *ngIf="loginForm.get('senha')?.invalid && loginForm.get('senha')?.touched" class="text-danger small">
-          A senha é obrigatória
+        <div class="invalid-feedback" *ngIf="loginForm.get('senha')?.touched && loginForm.get('senha')?.invalid">
+          A senha é obrigatória.
         </div>
       </div>
 
-            <button type="submit" class="btn btn-primary w-100">Entrar</button>
-          </form>
-        </div>
-
-      </div>
-
-      <button type="submit" class="btn btn-primary w-100 btn-lg" [disabled]="loginForm.invalid">
-        Entrar
+      <button type="submit" class="btn btn-primary w-100 mt-3">
+        <i class="fas fa-sign-in-alt me-2"></i> Entrar
       </button>
     </form>
-    <div class="text-center mt-3">
-    </div>
   </div>
 </div>

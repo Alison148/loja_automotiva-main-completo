@@ -1,20 +1,45 @@
-<div class="container mt-4">
-  <h2>Cadastro de Peça</h2>
+<div class="container mt-5">
+  <div class="card shadow-lg border-0 rounded-4 p-4">
+    <h2 class="text-center mb-4 text-success fw-bold">
+      🛠️ Cadastro de Peça
+    </h2>
 
-  <div class="mb-3">
-    <label>Nome da Peça</label>
-    <input class="form-control" [(ngModel)]="novaPeca.nome" />
+    <form (ngSubmit)="cadastrar()" class="row g-3">
+
+      <!-- Nome da Peça -->
+      <div class="col-md-12">
+        <label class="form-label fw-semibold">
+          <i class="fas fa-tools me-2 text-secondary"></i>Nome da Peça:
+        </label>
+        <input type="text" class="form-control form-control-lg" [(ngModel)]="novaPeca.nome" name="nomePeca"
+          placeholder="Digite o nome da peça" required />
+      </div>
+
+      <!-- Preço -->
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">
+          <i class="fas fa-dollar-sign me-2 text-secondary"></i>Preço (R$):
+        </label>
+        <input type="text" class="form-control form-control-lg" [(ngModel)]="precoFormatado"
+          (input)="formatarPreco()" name="preco" placeholder="Ex: 49.90" required />
+      </div>
+
+      <!-- Estoque -->
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">
+          <i class="fas fa-boxes me-2 text-secondary"></i>Estoque:
+        </label>
+        <input type="number" class="form-control form-control-lg" min="1" [(ngModel)]="novaPeca.estoque"
+          name="estoque" placeholder="Quantidade disponível" required />
+      </div>
+
+      <!-- Botão -->
+      <div class="col-md-12 d-grid mt-4">
+        <button type="submit" class="btn btn-lg btn-success shadow-sm fw-bold">
+          ✅ Cadastrar Peça
+        </button>
+      </div>
+
+    </form>
   </div>
-
-  <div class="mb-3">
-    <label>Preço</label>
-    <input class="form-control" [(ngModel)]="precoFormatado" (input)="formatarPreco()" />
-  </div>
-
-  <div class="mb-3">
-    <label>Estoque</label>
-    <input class="form-control" type="number" min="1" [(ngModel)]="novaPeca.estoque" />
-  </div>
-
-  <button class="btn btn-primary" (click)="cadastrar()">Cadastrar</button>
 </div>

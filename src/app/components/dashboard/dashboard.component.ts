@@ -10,7 +10,6 @@ import html2canvas from 'html2canvas';
 export class DashboardComponent implements OnInit, AfterViewInit {
   @ViewChild('graficoVendasProduto', { static: true }) canvasVendas!: ElementRef<HTMLCanvasElement>;
   @ViewChild('dashboardContainer', { static: false }) dashboardContainer!: ElementRef;
-
   vendas: any[] = [];
   private chartProduto: any;
 
@@ -20,7 +19,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.createProductSalesChart(); // Começa com o gráfico simples
+    this.createProductSalesChart();
   }
 
   createProductSalesChart(): void {
@@ -54,7 +53,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       options: {
         responsive: true,
         plugins: {
-          legend: { display: false }
+          legend: { display: true }
         },
         scales: {
           y: { beginAtZero: true }
@@ -80,9 +79,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     const totais = Object.values(vendasPorProduto);
 
     const cores = nomes.map((_, i) => {
-      if (i === 1) return '#ff4d4f'; // vermelho
-      if (i === nomes.length - 1) return '#52c41a'; // verde
-      return '#1890ff'; // azul
+      if (i === 1) return '#ff4d4f';
+      if (i === nomes.length - 1) return '#52c41a';
+      return '#1890ff';
     });
 
     this.chartProduto = new Chart(ctx!, {
