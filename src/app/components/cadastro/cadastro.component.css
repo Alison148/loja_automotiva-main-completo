@@ -1,0 +1,68 @@
+.card {
+  background: linear-gradient(135deg, #ffffff, #f1f1f1);
+  border-radius: 20px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.01);
+}
+
+h2 {
+  font-size: 1.8rem;
+  color: #28a745;
+  letter-spacing: 1px;
+}
+
+.form-label {
+  font-weight: 600;
+  color: #333;
+}
+
+.form-control {
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 1.1rem;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #28a745;
+  box-shadow: 0 0 8px rgba(40, 167, 69, 0.2);
+}
+
+.btn-success {
+  background: linear-gradient(to right, #28a745, #218838);
+  border: none;
+  border-radius: 12px;
+  padding: 14px;
+  transition: all 0.3s ease;
+}
+
+.btn-success:hover {
+  background: linear-gradient(to right, #218838, #28a745);
+  transform: translateY(-2px);
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .card {
+    padding: 20px;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+}
+@media (max-width: 576px) {
+  .form-control {
+    font-size: 1rem;
+    padding: 12px;
+  }
+
+  .btn-success {
+    padding: 12px;
+    font-size: 1rem;
+  }
+}

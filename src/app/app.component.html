@@ -1,37 +1,57 @@
+<!-- Adicione isso ao seu index.html -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow-sm">
   <div class="container-fluid">
-    <a class="navbar-brand" routerLink="/">🚗 Loja Automotiva</a>
+    <a class="navbar-brand fw-bold d-flex align-items-center" routerLink="/">
+      <i class="bi bi-car-front-fill me-2"></i> Loja Automotiva
+    </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
+
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav gap-2">
         <li class="nav-item">
-          <a class="nav-link" routerLink="/cadastro">➕ Cadastro</a>
+          <a class="nav-link d-flex align-items-center" routerLink="/cadastro">
+            <i class="bi bi-plus-circle-fill me-1"></i> Cadastro
+          </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/estoque">📦 Estoque</a>
+          <a class="nav-link d-flex align-items-center" routerLink="/estoque">
+            <i class="bi bi-box-seam-fill me-1"></i> Estoque
+          </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/venda">💸 Venda</a>
+          <a class="nav-link d-flex align-items-center" routerLink="/venda">
+            <i class="bi bi-currency-dollar me-1"></i> Venda
+          </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/vendas-realizadas">🧾 Vendas Realizadas</a>
+          <a class="nav-link d-flex align-items-center" routerLink="/vendas-realizadas">
+            <i class="bi bi-receipt-cutoff me-1"></i> Vendas Realizadas
+          </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/dashboard">📊 Dashboard</a>
+          <a class="nav-link d-flex align-items-center" routerLink="/dashboard">
+            <i class="bi bi-bar-chart-line-fill me-1"></i> Dashboard
+          </a>
         </li>
         <li class="nav-item">
-          <a class="btn btn-success btn-sm ms-2" routerLink="/abrir-caixa">🏦 Abrir Caixa</a>
+          <a class="btn btn-outline-success btn-sm d-flex align-items-center" routerLink="/abrir-caixa">
+            <i class="bi bi-bank me-1"></i> Abrir Caixa
+          </a>
         </li>
         <li class="nav-item">
-          <a class="btn btn-danger btn-sm ms-2" routerLink="/fechar-caixa">🏁 Fechar Caixa</a>
+          <a class="btn btn-outline-danger btn-sm d-flex align-items-center" routerLink="/fechar-caixa">
+            <i class="bi bi-flag-fill me-1"></i> Fechar Caixa
+          </a>
         </li>
       </ul>
     </div>
   </div>
 </nav>
 
-<div class="container mt-4">
+<div class="container mt-5 pt-4">
   <router-outlet></router-outlet>
 </div>

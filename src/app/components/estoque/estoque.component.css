@@ -1,5 +1,21 @@
 ul {
-    margin-top: 10px;
-    list-style-type: none;
-  }
-  
+  margin-top: 1rem;
+  padding-left: 0;
+  list-style: none;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+ul li {
+  padding: 12px 16px;
+  border-bottom: 1px solid #dee2e6;
+  font-weight: 500;
+  color: #333;
+}
+
+ul li:last-child {
+  border-bottom: none;
+}

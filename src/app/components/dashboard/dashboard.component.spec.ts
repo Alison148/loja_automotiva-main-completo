@@ -23,4 +23,4 @@ describe('DashboardComponent', () => {
 });
 
 //         plugins: {
-//           legend: { display: true },
+//           legend: { display: true },   
