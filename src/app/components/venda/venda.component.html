@@ -59,3 +59,14 @@
     </div>
   </div>
 </div>
+<select [(ngModel)]="formaPagamento" class="form-select">
+  <option>Dinheiro</option>
+  <option>Cartão de Crédito</option>
+  <option>PIX</option>
+  <option>Débito</option>
+</select>
+
+<div *ngIf="formaPagamento === 'Cartão de Crédito'" class="mt-2">
+  <label for="parcelas">Parcelas:</label>
+  <input type="number" min="1" max="12" [(ngModel)]="parcelas" class="form-control" />
+</div>

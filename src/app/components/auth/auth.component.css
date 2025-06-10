@@ -1,73 +1,22 @@
-.login-container {
+.auth-bg {
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f5fa;
+}
+
+.auth-card {
+  min-width: 350px;
+  max-width: 400px;
   width: 100%;
-  max-width: 600px;
-  margin: auto;
-  background: linear-gradient(to top, #ffffff, #d0e4f7);
-  padding: 20px;
-  border: 2px solid #0095ff;
-  border-radius: 8px;
-  font-family: Arial, sans-serif;
-  box-shadow: 0 0 10px #aaa;
+  padding: 2rem;
+  border-radius: 1.5rem;
+  background: #fff;
+  box-shadow: 0 0.75rem 2rem rgba(80, 80, 80, 0.08);
 }
-
-h2 {
-  text-align: right;
-  color: #0033cc;
-}
-
-.login-box {
-  text-align: center;
-}
-
-.login-box h3 {
-  font-size: 20px;
-  margin-bottom: 20px;
-}
-
-.input-group {
-  margin: 10px 0;
-  text-align: left;
-}
-
-.input-group label {
-  display: block;
-  font-weight: bold;
-}
-
-.input-group input {
-  width: 100%;
-  padding: 5px;
-  font-size: 16px;
-}
-
-.button-group {
-  margin-top: 20px;
-}
-
-.button-group button {
-  font-size: 16px;
-  padding: 8px 15px;
-  margin: 0 10px;
-}
-
-.info-box {
-  margin-top: 20px;
-  text-align: left;
-}
-
-.status-box {
-  margin-top: 10px;
-  text-align: left;
-}
-
-.status {
-  display: inline-block;
-  padding: 5px 10px;
-  font-weight: bold;
-  color: white;
-  border-radius: 4px;
-}
-
-.online {
-  background-color: #00cc00;
+.auth-card h1 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
 }

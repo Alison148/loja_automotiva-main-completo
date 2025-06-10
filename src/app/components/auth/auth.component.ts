@@ -10,6 +10,7 @@ import Swal from 'sweetalert2';
 })
 export class AuthComponent implements OnInit {
   loginForm!: FormGroup;
+  usuarioLogado: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -21,15 +22,17 @@ export class AuthComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       senha: ['', Validators.required]
     });
+    // Verifica se já está logado
+    this.usuarioLogado = localStorage.getItem('usuarioLogado') === 'true';
   }
 
   login(): void {
     if (this.loginForm.invalid) {
       this.marcarCamposComoTocados();
       Swal.fire({
-        icon: 'error',
-        title: 'Erro',
-        text: 'Preencha todos os campos corretamente.'
+        icon: 'info',
+        title: 'Atenção',
+        text: 'Por favor, preencha todos os campos antes de continuar.'
       });
       return;
     }
@@ -39,6 +42,7 @@ export class AuthComponent implements OnInit {
     // Simulação de autenticação
     if (email === 'admin@teste.com' && senha === '123456') {
       localStorage.setItem('usuarioLogado', 'true');
+      this.usuarioLogado = true;
 
       Swal.fire({
         icon: 'success',
@@ -52,11 +56,24 @@ export class AuthComponent implements OnInit {
 
     } else {
       Swal.fire({
-        icon: 'error',
-        title: 'Falha ao entrar',
-        text: 'E-mail ou senha inválidos.'
+        icon: 'info',
+        title: 'Atenção',
+        text: 'E-mail ou senha incorretos. Por favor, verifique e tente novamente.'
       });
     }
+  }
+
+  logoff(): void {
+    localStorage.removeItem('usuarioLogado');
+    this.usuarioLogado = false;
+    this.loginForm.reset();
+    Swal.fire({
+      icon: 'info',
+      title: 'Sessão encerrada',
+      text: 'Você saiu do sistema.'
+    });
+    // Volta para login (opcional)
+    this.router.navigate(['/login']);
   }
 
   private marcarCamposComoTocados(): void {

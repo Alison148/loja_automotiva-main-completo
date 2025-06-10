@@ -1,43 +1,39 @@
-<div class="container d-flex align-items-center justify-content-center vh-100">
-  <div class="card shadow p-4" style="max-width: 400px; width: 100%;">
-    <h2 class="text-center mb-4 text-primary fw-bold">
-      🔐 Acessar a Loja
-    </h2>
+<div class="min-vh-100 d-flex align-items-center justify-content-center bg-light">
+  <div *ngIf="!usuarioLogado" class="card shadow p-4 rounded-4" style="min-width: 350px; max-width: 100%; width: 100%;">
 
-    <form [formGroup]="loginForm" (ngSubmit)="login()">
+    <h3 class="mb-4 text-center text-primary fw-bold">
+      <i class="fas fa-sign-in-alt me-2"></i>Login do Sistema
+    </h3>
+    <form [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
       <div class="mb-3">
-        <label for="email" class="form-label fw-semibold">📧 E-mail</label>
-        <input
-          type="email"
-          id="email"
-          class="form-control"
-          formControlName="email"
-          [ngClass]="{ 'is-invalid': loginForm.get('email')?.touched && loginForm.get('email')?.invalid }"
-          placeholder="Digite seu e-mail"
-        />
-        <div class="invalid-feedback" *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
-          E-mail inválido.
+        <label for="email" class="form-label fw-semibold">E-mail</label>
+        <input id="email" formControlName="email" type="email" class="form-control form-control-lg"
+          [ngClass]="{ 'is-invalid': loginForm.controls.email.touched && loginForm.controls.email.invalid }"
+          placeholder="Digite seu e-mail" required>
+        <div class="invalid-feedback" *ngIf="loginForm.controls.email.touched && loginForm.controls.email.invalid">
+          Informe um e-mail válido.
         </div>
       </div>
-
       <div class="mb-3">
-        <label for="senha" class="form-label fw-semibold">🔒 Senha</label>
-        <input
-          type="password"
-          id="senha"
-          class="form-control"
-          formControlName="senha"
-          [ngClass]="{ 'is-invalid': loginForm.get('senha')?.touched && loginForm.get('senha')?.invalid }"
-          placeholder="Digite sua senha"
-        />
-        <div class="invalid-feedback" *ngIf="loginForm.get('senha')?.touched && loginForm.get('senha')?.invalid">
-          A senha é obrigatória.
+        <label for="senha" class="form-label fw-semibold">Senha</label>
+        <input id="senha" formControlName="senha" type="password" class="form-control form-control-lg"
+          [ngClass]="{ 'is-invalid': loginForm.controls.senha.touched && loginForm.controls.senha.invalid }"
+          placeholder="Digite sua senha" required>
+        <div class="invalid-feedback" *ngIf="loginForm.controls.senha.touched && loginForm.controls.senha.invalid">
+          Informe sua senha.
         </div>
       </div>
-
-      <button type="submit" class="btn btn-primary w-100 mt-3">
-        <i class="fas fa-sign-in-alt me-2"></i> Entrar
-      </button>
+      <button type="submit" class="btn btn-success w-100 mt-3 fw-bold">Entrar</button>
     </form>
+  </div>
+
+  <!-- Logoff exibido após login -->
+  <div *ngIf="usuarioLogado" class="card shadow p-4 rounded-4 text-center">
+    <h4 class="text-success fw-bold mb-3">
+      <i class="fas fa-user-check me-2"></i>Você está logado!
+    </h4>
+    <button class="btn btn-danger btn-lg fw-bold" (click)="logoff()">
+      <i class="fas fa-sign-out-alt me-2"></i> Sair do Sistema
+    </button>
   </div>
 </div>
