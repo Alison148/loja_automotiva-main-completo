@@ -11,8 +11,6 @@ export class VendaComponent implements OnInit {
   pecasDisponiveis: any[] = [];
   caixaAberto: boolean = false;
   quantidadeSelecionada: { [key: string]: number } = {};
-
-  ultimaVendaRealizada: any = null;
   formaPagamento: string = 'Dinheiro';
   parcelas: number = 1;
   valorParcela: number = 0;
@@ -43,50 +41,26 @@ export class VendaComponent implements OnInit {
 
     const quantidade = this.quantidadeSelecionada[peca.nome] || 1;
 
-    if (quantidade <= 0 || isNaN(quantidade)) {
-      return this.alerta('Quantidade inválida', '❌ A quantidade deve ser maior que 0!', 'error');
+    if (!quantidade || quantidade <= 0 || quantidade > peca.estoque) {
+      Swal.fire('Erro', 'Quantidade inválida.', 'error');
+      return;
     }
-
-    if (peca.estoque < quantidade) {
-      return this.alerta('Estoque insuficiente!', '❌ Não há quantidade suficiente no estoque.', 'error');
-    }
-
-    const total = peca.preco * quantidade;
-    const valorParcela = this.formaPagamento === 'Cartão de Crédito' && this.parcelas > 1
-      ? +(total / this.parcelas).toFixed(2)
-      : total;
 
     // Atualiza estoque
-    peca.estoque -= quantidade;
-    if (peca.estoque === 0) {
-      this.pecasDisponiveis = this.pecasDisponiveis.filter(p => p !== peca);
-    }
-    this.salvarEstoque();
+    const index = this.pecasDisponiveis.findIndex(p => p.nome === peca.nome);
+    this.pecasDisponiveis[index].estoque -= quantidade;
+    localStorage.setItem('pecas', JSON.stringify(this.pecasDisponiveis));
 
     // Registra venda
     this.registrarVenda({
       produto: peca.nome,
       preco: peca.preco,
       quantidade,
-      valor: total,
-      data: new Date().toISOString(),
+      valor: peca.preco * quantidade,
       formaPagamento: this.formaPagamento,
-      parcelas: this.parcelas,
-      valorParcela
-    });
-
-    this.ultimaVendaRealizada = {
-      produto: peca.nome,
-      preco: peca.preco,
-      quantidade,
-      valor: total,
-      data: new Date(),
-      formaPagamento: this.formaPagamento,
-      parcelas: this.parcelas,
-      valorParcela
+      parcelas: this.formaPagamento === 'Cartão de Crédito' ? this.parcelas : 1,
+      data: formatDate(new Date(), 'dd/MM/yyyy HH:mm', 'pt-BR')
     };
-
-    this.mostrarToast(`✅ Venda de ${quantidade}x ${peca.nome} registrada (${this.formaPagamento}${this.parcelas > 1 ? ` em ${this.parcelas}x de R$ ${valorParcela}` : ''})`);
 
     // Limpa campos
     delete this.quantidadeSelecionada[peca.nome];
